@@ -77,7 +77,7 @@ const linksMobile2 = {
 };
 // components logics
 
-export const NavBar = () => {
+export const NavBar = ({ counter }) => {
   return (
     <header css={hearderStyle}>
       <div css={navBarContainerStyle}>
@@ -98,7 +98,7 @@ export const NavBar = () => {
             <img src={cart} alt="cart-img" css={cartImage} />
           </a>
           <div css={cartAfter}>
-            <span css={countStyle}>0</span>
+            <span css={countStyle}>{counter}</span>
           </div>
         </div>
       </div>
