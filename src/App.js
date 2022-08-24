@@ -4,7 +4,7 @@ import { NavBar } from "./components/navBar/navBar";
 function App() {
   return (
     <div className="App">
-      <NavBar />
+      <NavBar counter={0} />
     </div>
   );
 }
