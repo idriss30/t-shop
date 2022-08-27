@@ -5,6 +5,8 @@ import cart from "../../assets/cart.svg";
 const hearderStyle = {
   width: "100%",
   height: "5rem",
+  position: "relative",
+  zIndex: "1100",
 };
 const navBarContainerStyle = {
   display: "flex",
@@ -31,6 +33,7 @@ const menuLinksStyle = {
   height: "100%",
   alignItems: "center",
   position: "relative",
+  zIndex: "1100",
 
   a: {
     padding: "0rem 1rem",

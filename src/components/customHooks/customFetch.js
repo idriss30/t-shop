@@ -7,13 +7,13 @@ const reducer = (state, action) => {
       return {
         ...state,
         loading: true,
-        error: false,
+        fetchErr: false,
       };
     case "/fetch/complete": {
       return {
-        loading: false,
-        error: false,
         ...state,
+        loading: false,
+        fetchErr: false,
         data: action.payload,
       };
     }
@@ -22,7 +22,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        error: true,
+        fetchErr: true,
       };
     }
 
@@ -33,8 +33,8 @@ const reducer = (state, action) => {
 
 const useMyCustomFetch = (link, initialItems) => {
   const [state, dispatch] = useReducer(reducer, {
-    error: false,
     loading: false,
+    fetchErr: false,
     data: initialItems,
   });
 
