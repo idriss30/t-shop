@@ -1,0 +1,30 @@
+.swiper-button-prev,
+.swiper-button-next {
+  color: white;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid black;
+  border-radius: 50%;
+  background-color: black;
+  box-sizing: border-box;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 1.2rem;
+}
+
+.swiper-pagination .swiper-pagination-bullet {
+  background-color: black;
+}
+
+.swiper-pagination .swiper-pagination-bullet-active {
+  background-color: gold;
+}
+
+@media only screen and (max-width: 520px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
+}
