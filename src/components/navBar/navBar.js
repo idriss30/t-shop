@@ -54,6 +54,7 @@ const countStyle = {
   border: "1px solid black",
   borderRadius: "50%",
   backgroundColor: "black",
+  textAlign: "center",
   color: "white",
   position: "absolute",
   top: "-1.2rem",
