@@ -21,6 +21,7 @@ const sliderSectionStyle = {
 const swiperContainer = {
   width: "100%",
   height: "100%",
+  marginBottom: "2rem",
 };
 
 const swiperStyle = {
@@ -30,7 +31,8 @@ const swiperStyle = {
 const imageStyle = {
   width: "50%",
   height: "100%",
-  backgroundPosition: "center",
+  display: "block",
+  margin: "0 auto",
   "@media(max-width:820px)": {
     width: "70%",
   },
