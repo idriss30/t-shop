@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matching materialComponent snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <section
+        class="css-p4662b-MaterialCare"
+      >
+        <div
+          class="css-1a2d97g-MaterialCare"
+        >
+          <div
+            class="css-2en8b0-MaterialCare"
+          >
+            <h1
+              class="css-1cqwli6-MaterialCare"
+            >
+              Content & Care
+            </h1>
+            <h2
+              class="css-q9heeh-MaterialCare"
+            >
+              Join Life
+            </h2>
+            <p>
+              Care for water: produced using less water.
+            </p>
+            <p>
+              We use the Join Life label for items that have been produced using technologies and raw materials that help us reduce the environmental impact of our products.
+            </p>
+            <p>
+              These garments were produced using technologies that reduce water consumption in their production processes.
+            </p>
+          </div>
+          <div
+            class="css-2en8b0-MaterialCare"
+          >
+            <img
+              alt="black tee-shirt"
+              class="css-1uuqmdo-MaterialCare"
+              src="zipBlack-display.jpg"
+            />
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>,
+  "container": <div>
+    <section
+      class="css-p4662b-MaterialCare"
+    >
+      <div
+        class="css-1a2d97g-MaterialCare"
+      >
+        <div
+          class="css-2en8b0-MaterialCare"
+        >
+          <h1
+            class="css-1cqwli6-MaterialCare"
+          >
+            Content & Care
+          </h1>
+          <h2
+            class="css-q9heeh-MaterialCare"
+          >
+            Join Life
+          </h2>
+          <p>
+            Care for water: produced using less water.
+          </p>
+          <p>
+            We use the Join Life label for items that have been produced using technologies and raw materials that help us reduce the environmental impact of our products.
+          </p>
+          <p>
+            These garments were produced using technologies that reduce water consumption in their production processes.
+          </p>
+        </div>
+        <div
+          class="css-2en8b0-MaterialCare"
+        >
+          <img
+            alt="black tee-shirt"
+            class="css-1uuqmdo-MaterialCare"
+            src="zipBlack-display.jpg"
+          />
+        </div>
+      </div>
+    </section>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
