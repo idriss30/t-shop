@@ -1,3 +1,4 @@
+import BestSellers from "./components/collection/collection";
 import HomeSlider from "./components/homeSlider/homeSlider";
 import MaterialCare from "./components/materials&Care/materialCareProgram";
 
@@ -9,6 +10,7 @@ function App() {
       <NavBar counter={0} />
       <HomeSlider />
       <MaterialCare />
+      <BestSellers />
     </div>
   );
 }

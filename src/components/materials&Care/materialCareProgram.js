@@ -32,10 +32,9 @@ const imageStyle = {
     right: "-3.2rem",
   },
   "@media(max-width:620px)": {
-    right: "0",
-    top: "-2rem",
-    width: "100%",
-    height: "80%",
+    position: "static",
+    width: "50vw",
+    height: "53vh",
   },
 };
 
@@ -52,7 +51,7 @@ const imageContainerStyle = {
     flexBasis: "50%",
   },
   "@media(max-width:620px)": {
-    width: "100%",
+    textAlign: "center",
   },
 };
 const MaterialCare = () => {
