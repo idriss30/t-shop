@@ -3,7 +3,6 @@ import displayShirt from "../../assets/zipBlack-display.jpg";
 
 const sectionStyle = {
   width: "70%",
-  height: "80vh",
   margin: "6rem auto",
   "@media(max-width:620px)": {
     width: "75%",
@@ -12,47 +11,44 @@ const sectionStyle = {
 
 const containerStyle = {
   width: "100%",
-  height: "80vh",
-  display: "flex",
+  height: "100%",
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  boxSizing: "border-box",
   alignItems: "center",
-  justifyContent: "center",
-  fontSize: ".9rem",
-  "@media(max-width:620px)": {
-    flexDirection: "column",
-    height: "auto",
+  "@media(max-width: 620px)": {
+    display: "block",
   },
 };
 
 const imageStyle = {
-  width: "98%",
-  height: "100%",
-  position: "relative",
-  right: "-4rem",
-  "@media(max-width:820px)": {
-    right: "-3.2rem",
+  display: "block",
+  float: "right",
+  width: "80%",
+  height: "90%",
+  "@media(max-width: 620px)": {
+    float: "none",
+    width: "55%",
+    height: "50vh",
+    margin: "1rem auto",
   },
-  "@media(max-width:620px)": {
-    position: "static",
-    width: "50vw",
-    height: "53vh",
+  "@media(max-width: 420px)": {
+    width: "75%",
+    height: "45vh",
+    margin: "1rem auto",
   },
 };
 
 const textStyle = {
-  "@media(max-width:820px)": {
-    flexBasis: "50%",
-  },
-  "@media(max-width:620px)": {
+  width: "90%",
+  "@media(max-width: 620px)": {
     width: "100%",
   },
 };
 const imageContainerStyle = {
-  "@media(max-width:820px)": {
-    flexBasis: "50%",
-  },
-  "@media(max-width:620px)": {
-    textAlign: "center",
-  },
+  width: "100%",
+  height: "80%",
+  justifySelf: "end",
 };
 const MaterialCare = () => {
   return (
