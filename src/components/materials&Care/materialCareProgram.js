@@ -24,7 +24,7 @@ const containerStyle = {
 const imageStyle = {
   display: "block",
   float: "right",
-  width: "80%",
+  width: "75%",
   height: "90%",
   "@media(max-width: 620px)": {
     float: "none",
