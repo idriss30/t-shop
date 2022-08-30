@@ -67,7 +67,7 @@ const header2Style = {
 
 const Collection = () => {
   const products = JSON.parse(localStorage.getItem("products"));
-  if (!products) return <Popup message={"problem getting best sellers"} />;
+  if (!products) return <Popup message={"problem fetching products"} />;
   const productCollection = products.filter(
     (product) => product.bestSeller !== true
   );
@@ -85,7 +85,7 @@ const Collection = () => {
                 <img
                   css={imagesStyle}
                   src={require(`../../assets/${product.imageName}-front.jpg`)}
-                  alt={`${product.name} tee shirt`}
+                  alt={`${product.imageName} tee-shirt`}
                 />
                 <div css={textStyle}>
                   <h2 css={header2Style}>{product.name}</h2>
