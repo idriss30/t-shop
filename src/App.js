@@ -3,6 +3,7 @@ import HomeSlider from "./components/homeSlider/homeSlider";
 import MaterialCare from "./components/materials&Care/materialCareProgram";
 
 import { NavBar } from "./components/navBar/navBar";
+import NewsLetter from "./components/newsLetter/newsLetter";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <HomeSlider />
       <MaterialCare />
       <BestSellers />
+      <NewsLetter />
     </div>
   );
 }
