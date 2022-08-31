@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import cart from "../../assets/cart.svg";
+import { Link } from "react-router-dom";
 
 //styles
 const hearderStyle = {
@@ -86,21 +87,21 @@ export const NavBar = ({ counter }) => {
     <header css={hearderStyle}>
       <div css={navBarContainerStyle}>
         <div css={logoStyle}>
-          <a href="/">TSHOP</a>
+          <Link to="/">TSHOP</Link>
         </div>
         <div css={menuLinksStyle}>
-          <a href="/man" css={linksMobile1}>
+          <Link to="/man" css={linksMobile1}>
             Man
-          </a>
-          <a href="/woman" css={linksMobile2}>
+          </Link>
+          <Link to="/woman" css={linksMobile2}>
             Woman
-          </a>
+          </Link>
         </div>
         <div css={menuLinksStyle}>
-          <a href="/login">Log in</a>
-          <a href="/cart">
+          <Link to="/login">Log in</Link>
+          <Link to="/cart">
             <img src={cart} alt="cart-img" css={cartImage} />
-          </a>
+          </Link>
           <div css={cartAfter}>
             <span css={countStyle}>{counter}</span>
           </div>
