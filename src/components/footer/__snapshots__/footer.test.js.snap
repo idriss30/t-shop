@@ -1,0 +1,264 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`footer snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <footer
+        class="css-1ma12cj-Footer"
+      >
+        <div
+          class="css-y6hzqt-Footer"
+        >
+          <div
+            class="css-10wg2l2-Footer"
+          >
+            <ul
+              class="css-195ws6a-Footer"
+            >
+              <li>
+                <a
+                  href="/about"
+                >
+                  About us
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/terms"
+                >
+                  Terms of use
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/privacy"
+                >
+                  Privacy policy
+                </a>
+              </li>
+            </ul>
+            <div
+              class="css-1wvbasq-Footer"
+            >
+              <p>
+                Portfolio concept do not put your real info.
+              </p>
+              <p>
+                credit card and user demo are available in the readme File
+              </p>
+              <p>
+                Images were taken from Zara.
+              </p>
+            </div>
+            <div
+              class="css-1mump6v-Footer"
+            >
+              <a
+                class="css-1dcmn4r-Footer"
+                href="https://facebook.com"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="facebook-icon"
+                  class="css-8421xc-Footer"
+                  src="facebook.png"
+                />
+              </a>
+              <a
+                class="css-1dcmn4r-Footer"
+                href="https://instagram.com"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="instagram-icon"
+                  class="css-8421xc-Footer"
+                  src="insta.png"
+                />
+              </a>
+              <a
+                class="css-1dcmn4r-Footer"
+                href="https://twitter.com"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="twitter-icon"
+                  class="css-8421xc-Footer"
+                  src="twitter.jpg"
+                />
+              </a>
+            </div>
+          </div>
+          <div
+            class="css-5qv669-Footer"
+          >
+            <p>
+              T-SHOP | USA
+            </p>
+            <p>
+              ALL right reserved
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>,
+  "container": <div>
+    <footer
+      class="css-1ma12cj-Footer"
+    >
+      <div
+        class="css-y6hzqt-Footer"
+      >
+        <div
+          class="css-10wg2l2-Footer"
+        >
+          <ul
+            class="css-195ws6a-Footer"
+          >
+            <li>
+              <a
+                href="/about"
+              >
+                About us
+              </a>
+            </li>
+            <li>
+              <a
+                href="/terms"
+              >
+                Terms of use
+              </a>
+            </li>
+            <li>
+              <a
+                href="/privacy"
+              >
+                Privacy policy
+              </a>
+            </li>
+          </ul>
+          <div
+            class="css-1wvbasq-Footer"
+          >
+            <p>
+              Portfolio concept do not put your real info.
+            </p>
+            <p>
+              credit card and user demo are available in the readme File
+            </p>
+            <p>
+              Images were taken from Zara.
+            </p>
+          </div>
+          <div
+            class="css-1mump6v-Footer"
+          >
+            <a
+              class="css-1dcmn4r-Footer"
+              href="https://facebook.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="facebook-icon"
+                class="css-8421xc-Footer"
+                src="facebook.png"
+              />
+            </a>
+            <a
+              class="css-1dcmn4r-Footer"
+              href="https://instagram.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="instagram-icon"
+                class="css-8421xc-Footer"
+                src="insta.png"
+              />
+            </a>
+            <a
+              class="css-1dcmn4r-Footer"
+              href="https://twitter.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="twitter-icon"
+                class="css-8421xc-Footer"
+                src="twitter.jpg"
+              />
+            </a>
+          </div>
+        </div>
+        <div
+          class="css-5qv669-Footer"
+        >
+          <p>
+            T-SHOP | USA
+          </p>
+          <p>
+            ALL right reserved
+          </p>
+        </div>
+      </div>
+    </footer>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
