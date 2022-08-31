@@ -1,18 +1,18 @@
-import BestSellers from "./components/collection/collection";
-import HomeSlider from "./components/homeSlider/homeSlider";
-import MaterialCare from "./components/materials&Care/materialCareProgram";
-
+import { Route, Routes } from "react-router-dom";
+import Footer from "./components/footer/footer";
+import Home from "./components/home/home";
 import { NavBar } from "./components/navBar/navBar";
-import NewsLetter from "./components/newsLetter/newsLetter";
 
 function App() {
   return (
     <div className="App">
       <NavBar counter={0} />
-      <HomeSlider />
-      <MaterialCare />
-      <BestSellers />
-      <NewsLetter />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+
+      <Footer />
     </div>
   );
 }
