@@ -17,6 +17,8 @@ body {
   background-color: "whitesmoke";
   margin: 0;
   box-sizing: border-box;
+  letter-spacing: 0.1rem;
+  line-height: 1.2rem;
   font-family: "prin" open sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
