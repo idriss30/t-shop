@@ -12,7 +12,7 @@ import "./overWriteSlider.css";
 const sliderSectionStyle = {
   width: "70%",
   height: "65vh",
-  margin: "4rem auto",
+  margin: "6rem auto",
   "@media(max-width:620px)": {
     width: "75%",
   },
@@ -45,8 +45,8 @@ const isProductsInLocalStorage = () => {
   return localStorage.getItem("products");
 };
 
-const filterBestSellerProducts = (products) => {
-  return products.filter((product) => product.bestSeller === true);
+const filterProducts = (products, filter, condition) => {
+  return products.filter((product) => product[filter] === condition);
 };
 
 const Display = ({ products }) => {
@@ -97,7 +97,7 @@ const FetchProducts = () => {
   if (fetchErr) return <Popup message="can not fetch products" />;
   const products = data.products;
   localStorage.setItem("products", JSON.stringify(products));
-  const bestSellers = filterBestSellerProducts(products);
+  const bestSellers = filterProducts(products, "bestSeller", true);
   return <Display products={bestSellers} />;
 };
 
@@ -105,8 +105,8 @@ const HomeSlider = () => {
   const isValidProd = isProductsInLocalStorage("products");
   if (!isValidProd || isValidProd.length === 0) return <FetchProducts />;
   const products = JSON.parse(isValidProd);
-  const bestSellers = filterBestSellerProducts(products);
+  const bestSellers = filterProducts(products, "bestSeller", true);
   return <Display products={bestSellers} />;
 };
 
-export default HomeSlider;
+export { HomeSlider, filterProducts };
