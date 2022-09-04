@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import { Link } from "react-router-dom";
 import Popup from "../popup/popup";
 
 const sectionStyle = {
@@ -28,13 +29,7 @@ const containerStyle = {
 };
 const imagesStyle = {
   width: "100%",
-  height: "65%",
-  "@media(max-width: 960px)": {
-    height: "55%",
-  },
-  "@media(max-width: 460px)": {
-    height: "60vh",
-  },
+  height: "100%",
 };
 
 const gridStyle = {
@@ -65,6 +60,17 @@ const header2Style = {
   },
 };
 
+const linkStyle = {
+  display: "inline-block",
+  height: "65%",
+  "@media(max-width: 960px)": {
+    height: "55%",
+  },
+  "@media(max-width: 460px)": {
+    height: "60vh",
+  },
+};
+
 const Collection = () => {
   const products = JSON.parse(localStorage.getItem("products"));
   if (!products) return <Popup message={"problem fetching products"} />;
@@ -82,11 +88,14 @@ const Collection = () => {
           {productCollection.map((product) => {
             return (
               <div key={product.id} css={gridStyle}>
-                <img
-                  css={imagesStyle}
-                  src={require(`../../assets/${product.imageName}-front.jpg`)}
-                  alt={`${product.imageName} tee-shirt`}
-                />
+                <Link to={`/shop/${product.imageName}`} css={linkStyle}>
+                  <img
+                    css={imagesStyle}
+                    src={require(`../../assets/${product.imageName}-front.jpg`)}
+                    alt={`${product.imageName} tee-shirt`}
+                  />
+                </Link>
+
                 <div css={textStyle}>
                   <h2 css={header2Style}>{product.name}</h2>
                   <p>{product.description}</p>

@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import { Link } from "react-router-dom";
 import displayShirt from "../../assets/zipBlack-display.jpg";
 
 const sectionStyle = {
@@ -69,7 +70,9 @@ const MaterialCare = () => {
           </p>
         </div>
         <div css={imageContainerStyle}>
-          <img src={displayShirt} alt="black tee-shirt" css={imageStyle} />
+          <Link to={`/shop/zipBlack`}>
+            <img src={displayShirt} alt="black tee-shirt" css={imageStyle} />
+          </Link>
         </div>
       </div>
     </section>

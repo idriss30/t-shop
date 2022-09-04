@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import manDisplay from "../../assets/black2-front.jpg";
 import womanDisplay from "../../assets/asia-front.jpg";
@@ -127,13 +127,13 @@ const Display = ({ products }) => {
     <section css={sectionStyle}>
       <div>
         <div css={displayStyle}>
-          <a href="/">
+          <Link to={gender === "woman" ? "/shop/asia" : "/shop/black2"}>
             <img
               css={imageDisplayStyle}
               alt="display tee-shirt"
               src={gender === "man" ? manDisplay : womanDisplay}
             />
-          </a>
+          </Link>
           <h1>
             {gender === "man"
               ? staticGenderObject.man.title
@@ -149,13 +149,13 @@ const Display = ({ products }) => {
           {productsToDisplay.map((product) => {
             return (
               <div key={product.id} css={singleGridStyle}>
-                <a href="/">
+                <Link to={`/shop/${product.imageName}`}>
                   <img
                     css={imageGridStyle}
                     src={require(`../../assets/${product.imageName}-front.jpg`)}
                     alt={product.name}
                   />
-                </a>
+                </Link>
                 <h2 css={header2Style}>{product.name}</h2>
                 <p>{product.description}</p>
                 <p>{`$${product.price}`}</p>

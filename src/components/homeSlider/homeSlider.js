@@ -4,6 +4,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper";
+import { Link } from "react-router-dom";
 import useMyCustomFetch from "../customHooks/customFetch";
 import Loader from "../loader/loader";
 import Popup from "../popup/popup";
@@ -71,11 +72,13 @@ const Display = ({ products }) => {
           return (
             <SwiperSlide key={product.id}>
               <div css={swiperStyle}>
-                <img
-                  css={imageStyle}
-                  src={require(`../../assets/${product.imageName}-front.jpg`)}
-                  alt={`${product.imageName} tee-shirt`}
-                />
+                <Link to={`/shop/${product.imageName}`}>
+                  <img
+                    css={imageStyle}
+                    src={require(`../../assets/${product.imageName}-front.jpg`)}
+                    alt={`${product.imageName} tee-shirt`}
+                  />
+                </Link>
               </div>
             </SwiperSlide>
           );

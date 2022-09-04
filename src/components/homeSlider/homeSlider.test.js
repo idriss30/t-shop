@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
-import HomeSlider from "./homeSlider";
+import { MemoryRouter } from "react-router-dom";
+import { HomeSlider } from "./homeSlider";
 import nock from "nock";
 
 const items = [
@@ -46,7 +47,12 @@ describe("testing homeSlider component", () => {
       .reply(200, {
         products: items,
       });
-    render(<HomeSlider />);
+
+    render(
+      <MemoryRouter>
+        <HomeSlider />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
       expect(screen.queryAllByRole("img")).toHaveLength(2);
@@ -64,7 +70,11 @@ describe("testing homeSlider component", () => {
       .get("/api/shop/products")
       .reply(400, { message: "connection refused" });
 
-    render(<HomeSlider />);
+    render(
+      <MemoryRouter>
+        <HomeSlider />
+      </MemoryRouter>
+    );
     expect(
       await screen.findByText("can not fetch products")
     ).toBeInTheDocument();
@@ -74,7 +84,11 @@ describe("testing homeSlider component", () => {
   test("can render products from localStorage", async () => {
     localStorage.setItem("products", JSON.stringify(items));
 
-    render(<HomeSlider />);
+    render(
+      <MemoryRouter>
+        <HomeSlider />
+      </MemoryRouter>
+    );
     await waitFor(() => {
       expect(screen.queryAllByRole("img")).toHaveLength(2);
     });

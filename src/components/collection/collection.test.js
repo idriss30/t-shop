@@ -1,5 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import Collection from "./collection";
 
 beforeEach(() => {
@@ -33,14 +34,23 @@ describe("testing collection components", () => {
 
   test("can render collection items from localStorage", () => {
     localStorage.setItem("products", JSON.stringify(products));
-    render(<Collection />);
+
+    render(
+      <MemoryRouter>
+        <Collection />
+      </MemoryRouter>
+    );
     expect(screen.queryAllByRole("img")).toHaveLength(2);
     expect(screen.getByAltText(/zipBlue/i)).toBeInTheDocument();
     expect(screen.getByAltText(/zipBlack/i)).toBeInTheDocument();
   });
 
   test("can display error component when localStorage is empty", () => {
-    render(<Collection />);
+    render(
+      <MemoryRouter>
+        <Collection />
+      </MemoryRouter>
+    );
     expect(screen.getByRole("button", "X")).toBeInTheDocument();
     expect(screen.getByText("problem fetching products")).toBeInTheDocument();
   });

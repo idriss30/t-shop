@@ -37,11 +37,15 @@ Object {
           <div
             class="css-1qx9l4v-MaterialCare"
           >
-            <img
-              alt="black tee-shirt"
-              class="css-u5131a-MaterialCare"
-              src="zipBlack-display.jpg"
-            />
+            <a
+              href="/shop/zipBlack"
+            >
+              <img
+                alt="black tee-shirt"
+                class="css-u5131a-MaterialCare"
+                src="zipBlack-display.jpg"
+              />
+            </a>
           </div>
         </div>
       </section>
@@ -80,11 +84,15 @@ Object {
         <div
           class="css-1qx9l4v-MaterialCare"
         >
-          <img
-            alt="black tee-shirt"
-            class="css-u5131a-MaterialCare"
-            src="zipBlack-display.jpg"
-          />
+          <a
+            href="/shop/zipBlack"
+          >
+            <img
+              alt="black tee-shirt"
+              class="css-u5131a-MaterialCare"
+              src="zipBlack-display.jpg"
+            />
+          </a>
         </div>
       </div>
     </section>
