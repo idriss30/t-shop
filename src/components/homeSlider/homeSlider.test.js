@@ -1,8 +1,7 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { HomeSlider } from "./homeSlider";
-import nock from "nock";
+import HomeSlider from "./homeSlider";
 
 const items = [
   {
@@ -25,72 +24,14 @@ const items = [
   },
 ];
 
-afterAll(() => {
-  if (!nock.isDone()) {
-    nock.cleanAll();
-    throw Error("some endpoints were not reached");
-  }
-});
+test("should render the homeSlider", () => {
+  render(
+    <MemoryRouter>
+      <HomeSlider products={items} />
+    </MemoryRouter>
+  );
 
-beforeEach(() => {
-  localStorage.clear();
-});
-describe("testing homeSlider component", () => {
-  //
-  test("should render the homeSlider and fetch products", async () => {
-    nock("http://localhost:5000")
-      .defaultReplyHeaders({
-        "access-control-allow-origin": "*",
-        "access-control-allow-credentials": "true",
-      })
-      .get("/api/shop/products")
-      .reply(200, {
-        products: items,
-      });
-
-    render(
-      <MemoryRouter>
-        <HomeSlider />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(screen.queryAllByRole("img")).toHaveLength(2);
-    });
-    expect(screen.getByAltText(/zipBlue/i)).toBeInTheDocument();
-    expect(screen.getByAltText(/zipBlack/i)).toBeInTheDocument();
-  });
-
-  test("can render homeStyle with error popup", async () => {
-    nock("http://localhost:5000")
-      .defaultReplyHeaders({
-        "access-control-allow-origin": "*",
-        "access-control-allow-credentials": "true",
-      })
-      .get("/api/shop/products")
-      .reply(400, { message: "connection refused" });
-
-    render(
-      <MemoryRouter>
-        <HomeSlider />
-      </MemoryRouter>
-    );
-    expect(
-      await screen.findByText("can not fetch products")
-    ).toBeInTheDocument();
-    expect(screen.getByRole("button", "X")).toBeInTheDocument();
-  });
-
-  test("can render products from localStorage", async () => {
-    localStorage.setItem("products", JSON.stringify(items));
-
-    render(
-      <MemoryRouter>
-        <HomeSlider />
-      </MemoryRouter>
-    );
-    await waitFor(() => {
-      expect(screen.queryAllByRole("img")).toHaveLength(2);
-    });
-  });
+  expect(screen.queryAllByRole("img")).toHaveLength(2);
+  expect(screen.getByAltText(/zipBlue/i)).toBeInTheDocument();
+  expect(screen.getByAltText(/zipBlack/i)).toBeInTheDocument();
 });
