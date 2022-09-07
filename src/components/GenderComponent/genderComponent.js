@@ -1,6 +1,10 @@
 import useMyCustomFetch from "../customHooks/customFetch";
 import Loader from "../loader/loader";
 import Popup from "../popup/popup";
+import {
+  isProductsInLocalStorage,
+  saveProductsToLocalStorage,
+} from "../reusable";
 import Display from "./genderFilter";
 
 const UseCustomFetchGender = () => {
@@ -11,14 +15,14 @@ const UseCustomFetchGender = () => {
   if (loading) return <Loader />;
   if (fetchErr) return <Popup message="can not fetch products" />;
   const products = data.products;
-  localStorage.setItem("products", JSON.stringify(products));
+  saveProductsToLocalStorage(products);
   return <Display products={products} />;
 };
 
 const Gender = () => {
-  const isProductsInLocalStorage = localStorage.getItem("products");
-  if (!isProductsInLocalStorage) return <UseCustomFetchGender />;
-  const products = JSON.parse(isProductsInLocalStorage);
+  const isProductSaved = isProductsInLocalStorage();
+  if (!isProductSaved) return <UseCustomFetchGender />;
+  const products = JSON.parse(isProductSaved);
   return <Display products={products} />;
 };
 

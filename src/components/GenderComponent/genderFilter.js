@@ -3,7 +3,7 @@ import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import manDisplay from "../../assets/black2-front.jpg";
 import womanDisplay from "../../assets/asia-front.jpg";
-import { filterProducts } from "../homeSlider/homeSlider";
+import { filterProducts } from "../reusable";
 
 const sectionStyle = {
   width: "70%",
