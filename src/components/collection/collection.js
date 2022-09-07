@@ -1,7 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { Link } from "react-router-dom";
-import Popup from "../popup/popup";
-
 const sectionStyle = {
   width: "70%",
   minHeight: "80vh",
@@ -71,13 +69,7 @@ const linkStyle = {
   },
 };
 
-const Collection = () => {
-  const products = JSON.parse(localStorage.getItem("products"));
-  if (!products) return <Popup message={"problem fetching products"} />;
-  const productCollection = products.filter(
-    (product) => product.bestSeller !== true
-  );
-
+const Collection = ({ products }) => {
   return (
     <section css={sectionStyle}>
       <div>
@@ -85,7 +77,7 @@ const Collection = () => {
           Our Collection
         </h1>
         <div css={containerStyle}>
-          {productCollection.map((product) => {
+          {products.map((product) => {
             return (
               <div key={product.id} css={gridStyle}>
                 <Link to={`/shop/${product.imageName}`} css={linkStyle}>
