@@ -65,6 +65,7 @@ const NewsLetter = () => {
 
   const onFormSubmit = async (e) => {
     e.preventDefault();
+    if (emailInput.length === 0) return;
     setEmailInput("");
     try {
       await axios.post("http://localhost:5000/api/news/email", {
@@ -89,6 +90,7 @@ const NewsLetter = () => {
           placeholder="enter your email"
           value={emailInput}
           onChange={onInputChange}
+          type={"email"}
         />
         <button>Submit</button>
       </form>
