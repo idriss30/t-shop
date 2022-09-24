@@ -4,8 +4,12 @@ import { useEffect, useState } from "react";
 const popupStyleDisplay = {
   width: "100%",
   height: "100vh",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   position: "fixed",
   top: "0",
+  zIndex: "1000",
 };
 
 const removePopupDisplay = {
@@ -13,15 +17,12 @@ const removePopupDisplay = {
 };
 
 const popupContainer = {
-  position: "absolute",
-  borderRadius: "1rem",
-  backgroundColor: "black",
-  color: "white",
   width: "20rem",
   height: "10rem",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%,-50%)",
+  border: "2px solid black",
+  color: "white",
+  backgroundColor: "black",
+  position: "relative",
   "@media(max-width:620px)": {
     width: "15rem",
   },
