@@ -1,0 +1,17 @@
+.bullet-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.bullet-style {
+  width: 4rem;
+  height: 4rem;
+}
+
+@media only screen and (max-width: 1194px) {
+  .bullet-style {
+    width: 3rem;
+    height: 3rem;
+  }
+}
