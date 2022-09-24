@@ -1,6 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import cart from "../../assets/cart.svg";
 import { Link } from "react-router-dom";
+import { myUseSelector } from "../../redux/reduxHooks";
+import Minicart from "../miniCart/miniCart";
+import { useEffect, useState } from "react";
 
 //styles
 const hearderStyle = {
@@ -48,19 +51,21 @@ const cartImage = {
   height: "2rem",
   position: "relative",
 };
-const cartAfter = {
+const cartStyle = {
   position: "relative",
+  lineHeight: "1.4rem",
 };
 const countStyle = {
   border: "1px solid black",
   borderRadius: "50%",
   backgroundColor: "black",
+  fontSize: ".7rem",
   textAlign: "center",
   color: "white",
   position: "absolute",
-  top: "-1.2rem",
+  top: "-.3rem",
   right: "0rem",
-  width: "1.2rem",
+  width: "1.4rem",
   "@media(max-width:620px)": {
     right: "-.5rem",
   },
@@ -80,33 +85,50 @@ const linksMobile2 = {
     textDecoration: "underline",
   },
 };
-// components logics
+// components logic
 
-export const NavBar = ({ counter }) => {
+export const NavBar = () => {
+  const totalProd = myUseSelector((state) => state.cart.totalProducts);
+  const [useMiniCart, setUseMiniCart] = useState(false);
+  useEffect(() => {
+    if (totalProd === 0 && useMiniCart) return setUseMiniCart(false);
+  }, [totalProd, useMiniCart]);
+
+  const handleOpenMiniCart = (event) => {
+    event.preventDefault();
+    if (totalProd > 0) setUseMiniCart(true);
+  };
+
+  const hideMiniCart = () => setUseMiniCart(false);
   return (
-    <header css={hearderStyle}>
-      <div css={navBarContainerStyle}>
-        <div css={logoStyle}>
-          <Link to="/">TSHOP</Link>
-        </div>
-        <div css={menuLinksStyle}>
-          <Link to="/man" css={linksMobile1}>
-            Man
-          </Link>
-          <Link to="/woman" css={linksMobile2}>
-            Woman
-          </Link>
-        </div>
-        <div css={menuLinksStyle}>
-          <Link to="/login">Log in</Link>
-          <Link to="/cart">
-            <img src={cart} alt="cart-img" css={cartImage} />
-          </Link>
-          <div css={cartAfter}>
-            <span css={countStyle}>{counter}</span>
+    <>
+      <header css={hearderStyle}>
+        <div css={navBarContainerStyle}>
+          <div css={logoStyle}>
+            <Link to="/">TSHOP</Link>
+          </div>
+          <div css={menuLinksStyle}>
+            <Link to="/man" css={linksMobile1}>
+              Man
+            </Link>
+            <Link to="/woman" css={linksMobile2}>
+              Woman
+            </Link>
+          </div>
+          <div css={menuLinksStyle}>
+            <Link to="/login">Log in</Link>
+            <div css={cartStyle}>
+              <Link to="/miniCart" onClick={handleOpenMiniCart}>
+                <img src={cart} alt="cart-img" css={cartImage} />
+              </Link>
+              <span role={"menuitem"} css={countStyle}>
+                {totalProd}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+      {useMiniCart && <Minicart hideMiniCart={hideMiniCart} />}
+    </>
   );
 };

@@ -1,11 +1,15 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { NavBar } from "./navBar";
 import { MemoryRouter } from "react-router-dom";
+import { renderWithProviders } from "../../redux/testUtils";
 
 describe("checking navbar links presence and features", () => {
+  beforeEach(() => {
+    sessionStorage.clear();
+  });
   test("should render navBar", () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <NavBar />
       </MemoryRouter>
