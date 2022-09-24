@@ -4,6 +4,12 @@ import NewsLetter from "./newsLetter";
 import nock from "nock";
 
 describe("testing newsLetter Component", () => {
+  afterAll(() => {
+    if (!nock.isDone()) {
+      nock.cleanAll();
+      throw Error("endpoint not reached");
+    }
+  });
   test("can render NewsLetterComponent", () => {
     render(<NewsLetter />);
     const input = screen.getByPlaceholderText("enter your email");
@@ -20,7 +26,7 @@ describe("testing newsLetter Component", () => {
   });
 
   test("can submit post request", async () => {
-    nock("http://localhost:5000")
+    nock(`${process.env.REACT_APP_URL}`)
       .defaultReplyHeaders({
         "access-control-allow-origin": "*",
         "access-control-allow-credentials": "true",
@@ -39,7 +45,7 @@ describe("testing newsLetter Component", () => {
   });
 
   test("can handle error from the server", async () => {
-    nock("http://localhost:5000")
+    nock(`${process.env.REACT_APP_URL}`)
       .defaultReplyHeaders({
         "access-control-allow-origin": "*",
         "access-control-allow-credentials": "true",

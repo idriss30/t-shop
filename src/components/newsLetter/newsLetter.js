@@ -68,7 +68,7 @@ const NewsLetter = () => {
     if (emailInput.length === 0) return;
     setEmailInput("");
     try {
-      await axios.post("http://localhost:5000/api/news/email", {
+      await axios.post(`${process.env.REACT_APP_URL}/api/news/email`, {
         email: emailInput,
       });
     } catch (error) {
