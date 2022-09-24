@@ -31,7 +31,7 @@ const FetchProductsFromLocalStorage = () => {
 
 const FetchProductsFromServer = () => {
   const fetchProductState = useMyCustomFetch(
-    "http://localhost:5000/api/shop/products",
+    `${process.env.REACT_APP_URL}/api/shop/products`,
     {
       products: [],
     }

@@ -68,7 +68,7 @@ describe("testing home components features", () => {
   });
 
   test("products are fetched from the server", async () => {
-    nock("http://localhost:5000")
+    nock(`${process.env.REACT_APP_URL}`)
       .defaultReplyHeaders({
         "access-control-allow-origin": "*",
         "access-control-allow-credentials": "true",
