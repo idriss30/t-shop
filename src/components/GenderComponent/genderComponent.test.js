@@ -30,7 +30,7 @@ const items = [
   },
 ];
 test("can render the man gender using fetch method", async () => {
-  nock("http://localhost:5000/")
+  nock(`${process.env.REACT_APP_URL}`)
     .defaultReplyHeaders({
       "access-control-allow-origin": "*",
       "access-control-allow-credentials": "true",
@@ -77,7 +77,7 @@ test("can render woman gender using localStorage methods", () => {
 });
 
 test("can fetch products using the fetch methods", async () => {
-  nock("http://localhost:5000/")
+  nock(`${process.env.REACT_APP_URL}`)
     .defaultReplyHeaders({
       "access-control-allow-origin": "*",
       "access-control-allow-credentials": "true",
