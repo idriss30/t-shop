@@ -56,7 +56,7 @@ const firstGroupTextStyle = {
   width: "50%",
 
   p: {
-    lineHeight: ".9rem",
+    lineHeight: "1.2rem",
     margin: "0",
   },
 };
