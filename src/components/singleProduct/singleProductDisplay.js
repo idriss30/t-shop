@@ -127,21 +127,26 @@ const ProductDisplay = ({ product }) => {
   const resetPopupState = () => {
     return setTimeout(() => {
       setPopup(false);
-    }, 1000);
+    }, 1200);
   };
 
   const selectSize = (e) => {
     return setSize(e.target.innerText.toLowerCase());
   };
 
+  const renderPopup = (message) => {
+    setPopup(true);
+    setPopupMessage(message);
+    resetPopupState();
+  };
+
   const handleAddToCart = (product) => {
     if (!size) {
-      setPopup(true);
-      setPopupMessage("please select a size");
-      resetPopupState();
+      renderPopup("please select a size");
       return;
     }
     dispatch(add({ ...product, size: size }));
+    renderPopup(`${product.imageName} added to cart`);
   };
 
   return (
