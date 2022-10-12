@@ -146,7 +146,7 @@ const ProductDisplay = ({ product }) => {
       return;
     }
     dispatch(add({ ...product, size: size }));
-    renderPopup(`${product.imageName} added to cart`);
+    renderPopup(`${product.name.toLowerCase()} added to cart`);
   };
 
   return (
