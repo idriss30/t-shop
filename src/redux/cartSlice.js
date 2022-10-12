@@ -15,7 +15,8 @@ const createCart = (state, action) => {
   const cart = [];
   cart.push({
     id: action.payload.id,
-    name: action.payload.imageName,
+    name: action.payload.name,
+    img: action.payload.imageName,
     quantity: 1,
     size: action.payload.size,
     price: action.payload.price,
@@ -39,7 +40,8 @@ const getProductIndex = (productId, size) => {
 const pushNewProduct = (state, action) => {
   const itemToadd = {
     id: action.payload.id,
-    name: action.payload.imageName,
+    name: action.payload.name,
+    img: action.payload.imageName,
     quantity: 1,
     size: action.payload.size,
     price: action.payload.price,
