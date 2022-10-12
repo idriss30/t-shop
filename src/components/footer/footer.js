@@ -84,6 +84,9 @@ const listLinkStyle = {
     textDecoration: "underline",
     fontWeight: "bold",
   },
+  "@media(max-width:420px)": {
+    marginBottom: "4rem",
+  },
 };
 
 const Footer = () => {
