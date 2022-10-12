@@ -35,6 +35,10 @@ const messageContainer = {
   padding: "0, .5rem",
   alignItems: "center",
   justifyContent: "center",
+
+  p: {
+    width: "80%",
+  },
 };
 
 const buttonStyle = {
@@ -62,7 +66,9 @@ const Popup = ({ message }) => {
   return (
     <div css={style}>
       <div css={popupContainer}>
-        <div css={messageContainer}>{message}</div>
+        <div css={messageContainer}>
+          <p>{message}</p>
+        </div>
 
         <button
           css={buttonStyle}
