@@ -34,7 +34,7 @@ describe("testing minicart features", () => {
     );
 
     expect(
-      screen.getByRole("img", { name: products.imageName })
+      screen.getByRole("img", { name: products.name })
     ).toBeInTheDocument();
     expect(screen.getByText(`Quantity : 1`)).toBeInTheDocument();
     expect(screen.getByText(`$${products.price}`)).toBeInTheDocument();

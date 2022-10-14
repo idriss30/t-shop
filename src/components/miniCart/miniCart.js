@@ -27,6 +27,9 @@ const cartContainerStyle = {
   padding: "2rem",
   height: "90vh",
   overflowY: "auto",
+  "@media(max-width:420px)": {
+    padding: "0",
+  },
 };
 
 const singleProductContainerStyle = {
@@ -61,6 +64,10 @@ const closeButtonStyle = {
   color: "white",
   cursor: "pointer",
   borderRadius: "50%",
+  "@media(max-width:420px)": {
+    right: "3rem",
+    top: "1.7rem",
+  },
 };
 
 const cartButtonStyle = {
@@ -80,6 +87,12 @@ const cartButtonStyle = {
     width: "70%",
   },
 };
+const globalContainer = {
+  "@media(max-width:420px)": {
+    width: "75%",
+    margin: "0 auto",
+  },
+};
 const Minicart = ({ hideMiniCart }) => {
   // take a function that should close the cart when button is clicked
   const cart = myUseSelector((state) => state.cart.products);
@@ -91,40 +104,44 @@ const Minicart = ({ hideMiniCart }) => {
   }, [cart]);
   return (
     <aside aria-label="section" css={sectionStyle}>
-      <button css={closeButtonStyle} onClick={hideMiniCart}>
-        X
-      </button>
-      <div css={cartContainerStyle}>
-        total:
-        <span css={{ color: "red", margin: "1rem 0", display: "inline-block" }}>
-          ${total}
-        </span>
-        {cart.map((product) => {
-          return (
-            <div key={`${product.name} ${Math.random(3)}`}>
-              <div css={singleProductContainerStyle}>
-                <img
-                  src={require(`../../assets/${product.name}-display.jpg`)}
-                  alt={product.name}
-                />
-                <div css={cartTextGrid}>
-                  <span>{product.name} tee-shirt</span>
-                  <span>size: {product.size}</span>
-                  <span>Quantity : {product.quantity}</span>
-                  <span onClick={() => dispatch(remove({ ...product }))}>
-                    <img
-                      src={require(`../../assets/trash.png`)}
-                      alt="garbage icon"
-                    />
-                  </span>
+      <div css={globalContainer}>
+        <button css={closeButtonStyle} onClick={hideMiniCart}>
+          X
+        </button>
+        <div css={cartContainerStyle}>
+          total:
+          <span
+            css={{ color: "red", margin: "1rem 0", display: "inline-block" }}
+          >
+            ${total}
+          </span>
+          {cart.map((product) => {
+            return (
+              <div key={`${product.name} ${Math.random(3)}`}>
+                <div css={singleProductContainerStyle}>
+                  <img
+                    src={require(`../../assets/${product.img}-display.jpg`)}
+                    alt={product.name}
+                  />
+                  <div css={cartTextGrid}>
+                    <span>{product.name.toLowerCase()}</span>
+                    <span>size: {product.size}</span>
+                    <span>Quantity : {product.quantity}</span>
+                    <span onClick={() => dispatch(remove({ ...product }))}>
+                      <img
+                        src={require(`../../assets/trash.png`)}
+                        alt="garbage icon"
+                      />
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-        <Link css={cartButtonStyle} to={"/cart"} onClick={hideMiniCart}>
-          Go to Cart
-        </Link>
+            );
+          })}
+          <Link css={cartButtonStyle} to={"/cart"} onClick={hideMiniCart}>
+            Go to cart
+          </Link>
+        </div>
       </div>
     </aside>
   );
