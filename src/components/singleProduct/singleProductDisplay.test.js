@@ -64,7 +64,8 @@ describe("testing singleProduct features", () => {
     const expectedCart = [
       {
         id: sampleProduct.id,
-        name: sampleProduct.imageName,
+        name: sampleProduct.name,
+        img: sampleProduct.imageName,
         quantity: 1,
         size: "small",
         price: sampleProduct.price,
