@@ -90,6 +90,7 @@ const linksMobile2 = {
 export const NavBar = () => {
   const totalProd = myUseSelector((state) => state.cart.totalProducts);
   const [useMiniCart, setUseMiniCart] = useState(false);
+
   useEffect(() => {
     if (totalProd === 0 && useMiniCart) return setUseMiniCart(false);
   }, [totalProd, useMiniCart]);
