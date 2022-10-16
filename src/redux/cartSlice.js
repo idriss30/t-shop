@@ -29,11 +29,14 @@ const createCart = (state, action) => {
 const getProductIndex = (productId, size) => {
   const cart = JSON.parse(isCartInSessionStorage());
   let index = null;
-  cart.forEach((item, i) => {
-    if (item.id === productId && item.size === size) {
-      index = i;
-    }
-  });
+  if (cart) {
+    cart.forEach((item, i) => {
+      if (item.id === productId && item.size === size) {
+        index = i;
+      }
+    });
+  }
+
   return index;
 };
 

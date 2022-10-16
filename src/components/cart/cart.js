@@ -123,7 +123,7 @@ const BillingDisplay = ({ totalProducts, totalAmount }) => {
   return (
     <div css={billingStyle}>
       <p>
-        Number of items : <span>{totalProducts}</span>
+        Number of items :<span title="item-quantity">{totalProducts}</span>
       </p>
       <p>
         Total: <span>${totalAmount}</span>
@@ -133,7 +133,9 @@ const BillingDisplay = ({ totalProducts, totalAmount }) => {
       </p>
       <p>
         Amount to pay:
-        <span css={{ color: "red", fontWeight: "bold" }}>${totalAmount}</span>
+        <span title="total" css={{ color: "red", fontWeight: "bold" }}>
+          ${totalAmount}
+        </span>
       </p>
       <button>Checkout</button>
     </div>
