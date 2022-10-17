@@ -76,7 +76,7 @@ const removeProduct = (state, action) => {
   if (state.products.length === 1) {
     resetState(state);
   } else {
-    --state.totalProducts;
+    state.totalProducts -= action.payload.quantity;
     state.products = [...newProdState];
     saveCartToSessionStorage(newProdState);
   }
@@ -91,6 +91,7 @@ const decrementQuantity = (state, action) => {
     --state.totalProducts;
     --getArr[index].quantity;
     state.products = [...getArr];
+    saveCartToSessionStorage([...getArr]);
   }
 };
 
