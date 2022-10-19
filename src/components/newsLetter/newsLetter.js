@@ -65,7 +65,6 @@ const NewsLetter = () => {
 
   const onFormSubmit = async (e) => {
     e.preventDefault();
-    if (emailInput.length === 0) return;
     setEmailInput("");
     try {
       await axios.post(`${process.env.REACT_APP_URL}/api/news/email`, {
@@ -91,6 +90,7 @@ const NewsLetter = () => {
           value={emailInput}
           onChange={onInputChange}
           type={"email"}
+          required
         />
         <button>Submit</button>
       </form>
