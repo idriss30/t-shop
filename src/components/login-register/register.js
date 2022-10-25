@@ -220,9 +220,9 @@ const Register = () => {
               <input
                 id="checkbox"
                 type={"checkbox"}
-                defaultChecked={terms}
-                onClick={() => setTerms(!terms)}
+                checked={terms}
                 required
+                onChange={() => setTerms(!terms)}
               />
               <label htmlFor="checkbox">
                 I agree to the terms and conditions
