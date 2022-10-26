@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
 
 const popupStyleDisplay = {
   width: "100%",
@@ -10,10 +9,6 @@ const popupStyleDisplay = {
   position: "fixed",
   top: "0",
   zIndex: "1000",
-};
-
-const removePopupDisplay = {
-  display: "none",
 };
 
 const popupContainer = {
@@ -49,33 +44,15 @@ const buttonStyle = {
   right: "1rem",
 };
 
-const Popup = ({ message }) => {
-  const [style, setStyle] = useState(popupStyleDisplay);
-  useEffect(() => {
-    let isMounted = false;
-    setTimeout(() => {
-      if (!isMounted) return setStyle(removePopupDisplay);
-    }, 2000);
-
-    return () => {
-      clearTimeout();
-      isMounted = true;
-    };
-  }, []);
-
+const Popup = ({ message, remove }) => {
   return (
-    <div css={style}>
+    <div aria-label="popup" css={popupStyleDisplay}>
       <div css={popupContainer}>
         <div css={messageContainer}>
           <p>{message}</p>
         </div>
 
-        <button
-          css={buttonStyle}
-          onClick={() => {
-            setStyle(removePopupDisplay);
-          }}
-        >
+        <button css={buttonStyle} onClick={remove}>
           X
         </button>
       </div>
