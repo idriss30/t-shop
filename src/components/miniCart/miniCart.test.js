@@ -54,16 +54,9 @@ describe("testing minicart features", () => {
       </MemoryRouter>,
       { store }
     );
-    const state = {
-      cart: {
-        totalProducts: 0,
-        products: [],
-      },
-    };
-
     const deleteButton = screen.getByAltText("garbage icon");
     fireEvent.click(deleteButton);
-    expect(store.getState()).toEqual(state);
+
     expect(
       screen.queryByRole("img", { name: products.imageName })
     ).not.toBeInTheDocument();
