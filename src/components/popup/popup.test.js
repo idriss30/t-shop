@@ -1,8 +1,6 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Popup from "./popup";
-
-jest.spyOn(global, "setTimeout");
 
 test("render popup Content", async () => {
   render(<Popup message={"testing rendering"} />);
@@ -11,8 +9,18 @@ test("render popup Content", async () => {
   expect(screen.getByRole("button", { name: "X" })).toBeInTheDocument();
 });
 
-test("should wait 2 sec before closing the popup", () => {
-  render(<Popup message={"fade"} />);
-  expect(setTimeout).toHaveBeenCalledTimes(1);
-  expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 2000);
+test("should close the popup by passing a remove function", () => {
+  const remove = () => {
+    const popup = screen.getByLabelText("popup");
+    popup.style.display = "none";
+  };
+  render(<Popup message={"testing close button"} remove={remove} />);
+
+  expect(screen.getByText(/testing/i)).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "X" })).toBeInTheDocument();
+
+  const removeButton = screen.getByRole("button", { name: "X" });
+  fireEvent.click(removeButton);
+  const popup = screen.getByLabelText("popup");
+  expect(popup).not.toBeVisible();
 });
