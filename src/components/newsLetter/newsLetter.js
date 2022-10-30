@@ -80,7 +80,7 @@ const NewsLetter = () => {
   };
 
   return isFormSubmitted ? (
-    <Popup message={message} />
+    <Popup message={message} remove={() => setIsFormSubmitted(false)} />
   ) : (
     <div css={sectionStyle}>
       <h1 css={headerStyle}>Join our newsLetter</h1>
