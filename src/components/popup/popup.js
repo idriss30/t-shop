@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import { useEffect, useState } from "react";
 
 const popupStyleDisplay = {
   width: "100%",
@@ -45,18 +46,28 @@ const buttonStyle = {
 };
 
 const Popup = ({ message, remove }) => {
+  const [visibility, setVisibility] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setVisibility(false);
+    }, 2000);
+  }, []);
   return (
-    <div aria-label="popup" css={popupStyleDisplay}>
-      <div css={popupContainer}>
-        <div css={messageContainer}>
-          <p>{message}</p>
-        </div>
+    <>
+      {visibility && (
+        <div aria-label="popup" css={popupStyleDisplay}>
+          <div css={popupContainer}>
+            <div css={messageContainer}>
+              <p>{message}</p>
+            </div>
 
-        <button css={buttonStyle} onClick={remove}>
-          X
-        </button>
-      </div>
-    </div>
+            <button css={buttonStyle} onClick={remove}>
+              X
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
