@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import cart from "../../assets/cart.svg";
+import userIconImg from "../../assets/user.png";
 import { Link } from "react-router-dom";
 import { myUseSelector } from "../../redux/reduxHooks";
 import Minicart from "../miniCart/miniCart";
@@ -89,10 +90,11 @@ const linksMobile2 = {
 
 export const NavBar = () => {
   const totalProd = myUseSelector((state) => state.cart.totalProducts);
+  const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
   const [useMiniCart, setUseMiniCart] = useState(false);
 
   useEffect(() => {
-    if (totalProd === 0 && useMiniCart) return setUseMiniCart(false);
+    if (totalProd === 0 && useMiniCart) setUseMiniCart(false);
   }, [totalProd, useMiniCart]);
 
   const handleOpenMiniCart = (event) => {
@@ -117,7 +119,13 @@ export const NavBar = () => {
             </Link>
           </div>
           <div css={menuLinksStyle}>
-            <Link to="/login">Log in</Link>
+            <Link to="/login">
+              {isLoggedIn ? (
+                <img style={cartImage} src={userIconImg} alt="user icon" /> // copy cart img style to avoid css repetition
+              ) : (
+                "log in"
+              )}
+            </Link>
             <div css={cartStyle}>
               <Link to="/miniCart" onClick={handleOpenMiniCart}>
                 <img src={cart} alt="cart-img" css={cartImage} />
