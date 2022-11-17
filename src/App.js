@@ -8,6 +8,7 @@ import { Cart } from "./components/cart/cart";
 import PageDisplay from "./components/login-register/login";
 import Register from "./components/login-register/register";
 import Profile from "./components/profile/profile";
+import UpdateProfileForm from "./components/profile/updateDisplay";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<PageDisplay />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/users/profile" element={<Profile />}></Route>
+        <Route path="/users/update" element={<UpdateProfileForm />}></Route>
       </Routes>
       <Footer />
     </div>
