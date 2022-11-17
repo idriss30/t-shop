@@ -11,6 +11,7 @@ import {
   resetState,
   resetUserError,
 } from "../../redux/userSlice";
+import Orders from "./order";
 
 const sectionStyle = {
   width: "70%",
@@ -52,7 +53,7 @@ const sectionContainerStyle = {
   },
 };
 
-const ProfileDisplay = ({ user }) => {
+const ProfileDisplay = ({ user, showOrders }) => {
   const dispatch = myUseDispatch();
 
   const logUserOut = () => {
@@ -92,7 +93,7 @@ const ProfileDisplay = ({ user }) => {
         </p>
         <p>
           To check your orders follow this link.
-          <Link to={"#"}>
+          <Link to={"#"} onClick={showOrders}>
             <span>orders &rarr;</span>
           </Link>
         </p>
@@ -120,6 +121,16 @@ const Profile = () => {
   const [user, setUser] = useState({});
   const [displayProfile, setDisplayProfile] = useState(true);
   const [emptyContainer, setEmptyContainer] = useState(false);
+  const [showOrders, setShowOrders] = useState(false);
+
+  const showOrderFunction = () => {
+    setDisplayProfile(false);
+    setShowOrders(true);
+  };
+  const hideOrderFunction = () => {
+    setShowOrders(false);
+    setDisplayProfile(true);
+  };
 
   const dispatch = myUseDispatch();
 
@@ -191,7 +202,12 @@ const Profile = () => {
       {popup && <Popup message={popupMessage} />}
       {emptyContainer && <PopupEmptyContainer />}
       {loader && <Loader />}
-      {displayProfile && <ProfileDisplay user={user} />}
+      {displayProfile && (
+        <ProfileDisplay user={user} showOrders={showOrderFunction} />
+      )}
+      {showOrders && (
+        <Orders firstName={user.firstname} hideOrders={hideOrderFunction} />
+      )}
     </>
   );
 };
