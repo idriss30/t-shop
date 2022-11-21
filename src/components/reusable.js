@@ -20,13 +20,13 @@ const isCartInSessionStorage = () => {
 
 const totalCountQuantity = (cart) => {
   return cart.reduce((acc, product) => {
-    return acc + product.quantity;
+    return acc + product.qty;
   }, 0);
 };
 
 const totalPrice = (cart) => {
   return cart.reduce((init, product) => {
-    return init + product.price * product.quantity;
+    return init + product.price * product.qty;
   }, 0);
 };
 export {
