@@ -4,7 +4,7 @@ import { decrement, increment, remove } from "../../redux/cartSlice";
 import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
 
 import { totalPrice } from "../reusable";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 const sectionStyle = {
   minHeight: "70vh",
   width: "70%",
@@ -74,14 +74,16 @@ const billingStyle = {
     width: "90%",
   },
 
-  button: {
+  a: {
     backgroundColor: "black",
+    display: "inline-block",
     margin: "1rem auto",
     padding: ".3rem",
     border: "none",
     color: "white",
     borderRadius: "2rem",
     width: "70%",
+    textAlign: "center",
   },
 };
 
@@ -137,7 +139,7 @@ const BillingDisplay = ({ totalProducts, totalAmount }) => {
           ${totalAmount}
         </span>
       </p>
-      <button>Checkout</button>
+      <Link to={"/checkout"}>Checkout</Link>
     </div>
   );
 };
