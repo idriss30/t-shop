@@ -17,7 +17,7 @@ const createCart = (state, action) => {
     id: action.payload.id,
     name: action.payload.name,
     img: action.payload.imageName,
-    quantity: 1,
+    qty: 1,
     size: action.payload.size,
     price: action.payload.price,
   });
@@ -45,7 +45,7 @@ const pushNewProduct = (state, action) => {
     id: action.payload.id,
     name: action.payload.name,
     img: action.payload.imageName,
-    quantity: 1,
+    qty: 1,
     size: action.payload.size,
     price: action.payload.price,
   };
@@ -59,7 +59,7 @@ const pushNewProduct = (state, action) => {
 const incrementQuantity = (state, action) => {
   const index = getProductIndex(action.payload.id, action.payload.size);
   const arr = [...state.products];
-  arr[index].quantity++;
+  arr[index].qty++;
   saveCartToSessionStorage(arr);
   state.products = [...arr];
   ++state.totalProducts;
@@ -76,7 +76,7 @@ const removeProduct = (state, action) => {
   if (state.products.length === 1) {
     resetState(state);
   } else {
-    state.totalProducts -= action.payload.quantity;
+    state.totalProducts -= action.payload.qty;
     state.products = [...newProdState];
     saveCartToSessionStorage(newProdState);
   }
@@ -85,11 +85,11 @@ const removeProduct = (state, action) => {
 const decrementQuantity = (state, action) => {
   const index = getProductIndex(action.payload.id, action.payload.size);
   const getArr = [...state.products];
-  if (getArr[index].quantity === 1) {
+  if (getArr[index].qty === 1) {
     removeProduct(state, action);
   } else {
     --state.totalProducts;
-    --getArr[index].quantity;
+    --getArr[index].qty;
     state.products = [...getArr];
     saveCartToSessionStorage([...getArr]);
   }
