@@ -9,6 +9,7 @@ import PageDisplay from "./components/login-register/login";
 import Register from "./components/login-register/register";
 import Profile from "./components/profile/profile";
 import UpdateProfileForm from "./components/profile/updateDisplay";
+import Checkout from "./components/checkout/checkout";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
         <Route path="/users/profile" element={<Profile />}></Route>
         <Route path="/users/update" element={<UpdateProfileForm />}></Route>
+        <Route path="/checkout" element={<Checkout />}></Route>
       </Routes>
       <Footer />
     </div>
