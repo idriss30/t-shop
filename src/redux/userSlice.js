@@ -25,6 +25,7 @@ const initialState = {
   isLoading: false,
   isLoggedIn: checkUserCookie(),
   error: null,
+  userInfo: {},
   isItFullFilled: false,
   isDeleted: false,
 };
@@ -64,6 +65,7 @@ const reset = (state) => {
   state.error = null;
   state.isLoading = false;
   state.isDeleted = false;
+  state.userInfo = {};
 };
 
 const resetDeleteUserError = (state) => {
@@ -89,6 +91,7 @@ export const userSlice = createSlice({
         state.isItFullFilled = true;
         state.isLoggedIn = true;
         state.isDeleted = false;
+        state.userInfo = action.payload.user;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.error = action.error.message;
@@ -96,6 +99,7 @@ export const userSlice = createSlice({
         state.isItFullFilled = false;
         state.isLoggedIn = checkUserCookie();
         state.isDeleted = false;
+        state.userInfo = {};
       });
 
     builder.addCase(logoutUser.fulfilled, (state) => {
@@ -105,6 +109,7 @@ export const userSlice = createSlice({
       state.isItFullFilled = true;
       state.isLoggedIn = checkUserCookie();
       state.isDeleted = false;
+      state.userInfo = {};
     });
     builder.addCase(logoutUser.rejected, (state, action) => {
       state.error = action.error.message;
@@ -120,6 +125,7 @@ export const userSlice = createSlice({
       state.error = null;
       state.isLoggedIn = false;
       state.isDeleted = true;
+      state.userInfo = {};
     });
     builder.addCase(deleteUser.rejected, (state, action) => {
       state.isItFullFilled = false;
