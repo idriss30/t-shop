@@ -5,6 +5,10 @@ import { useState } from "react";
 import { totalPrice } from "../reusable";
 import { useEffect } from "react";
 import axios from "axios";
+import { PaymentElement } from "@stripe/react-stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import Popup from "../popup/popup";
 
 const sectionStyle = {
   width: "70%",
@@ -72,9 +76,6 @@ const CheckoutForm = () => {
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
 
-  const products = myUseSelector((state) => state.cart.products);
-  const total = totalPrice(products);
-  const items = JSON.stringify(...products); // stringify profuct to save in database;
   const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
   const userInfo = myUseSelector((state) => state.user.userInfo);
 
@@ -147,28 +148,54 @@ const CheckoutForm = () => {
         maxLength={5}
         onChange={(e) => setZip(e.target.value)}
       />
+      <PaymentElement />
       <button>Place order</button>
     </form>
   );
 };
 
 const Checkout = () => {
-  const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
-
   const [stripeToken, setStripeToken] = useState();
-  const fetchToken = async () => {
-    const tokenRequest = await axios.post(
-      `${process.env.REACT_APP_URL}/api/stripe/paymentIntent`,
-      {}
-    );
+  const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
+  const [popup, setPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+
+  const products = myUseSelector((state) => state.cart.products);
+  const stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE}`);
+  const options = {
+    clientSecret: `{{${stripeToken}}}`,
   };
 
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const tokenRequest = await axios.post(
+          `${process.env.REACT_APP_URL}/api/stripe/paymentIntent`,
+          { products }
+        );
+        setStripeToken(tokenRequest.data.clientSecret);
+      } catch (error) {
+        setPopupMessage(error);
+        setPopup(true);
+      }
+    };
+
+    (async () => {
+      await fetchToken();
+    })();
+  }, [products]);
+
   return (
-    <section css={sectionStyle}>
-      {!isLoggedIn && <InviteToLogin />}
-      <h1>your info</h1>
-      <CheckoutForm />
-    </section>
+    <>
+      {popup && <Popup message={popupMessage} />}
+      <section css={sectionStyle}>
+        {!isLoggedIn && <InviteToLogin />}
+        <h1>your info</h1>
+        <Elements stripe={stripePromise} options={options}>
+          <CheckoutForm />
+        </Elements>
+      </section>
+    </>
   );
 };
 
