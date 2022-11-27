@@ -9,9 +9,7 @@ import {
 import { useEffect } from "react";
 
 const formStyle = {
-  width: "50%",
-  display: "flex",
-  flexDirection: "column",
+  width: "100%",
   "@media(max-width:920px)": {
     width: "100%",
   },
@@ -31,17 +29,38 @@ const formStyle = {
     },
   },
   button: {
-    margin: "2rem 0",
+    display: "block",
+    margin: "3rem 0",
+
     width: "50%",
     padding: ".3rem",
     border: "none",
     backgroundColor: "black",
     color: "white",
     borderRadius: "2rem",
+
     "@media(max-width:420px)": {
       width: "70%",
     },
   },
+};
+
+const formContainerStyle = {
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  justifyContent: "space-between",
+  width: "100%",
+  height: "100%",
+};
+
+const customFormStyle = {
+  flexBasis: "45%",
+};
+const stripeFormStyle = {
+  flexBasis: "45%",
+  backgroundColor: "whiteSmoke",
+  padding: "1rem",
 };
 
 const CheckoutForm = () => {
@@ -73,58 +92,65 @@ const CheckoutForm = () => {
 
   return (
     <form css={formStyle}>
-      <input
-        type={"text"}
-        required
-        placeholder="first name"
-        value={first}
-        onChange={(e) => setFirst(e.target.value)}
-      />
-      <input
-        type={"text"}
-        required
-        placeholder="last name"
-        value={last}
-        onChange={(e) => setLast(e.target.value)}
-      />
-      <input
-        type={"email"}
-        required
-        placeholder="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type={"text"}
-        required
-        placeholder=" delivery address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-      />
-      <input
-        type={"text"}
-        required
-        placeholder="city"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-      />
-      <input
-        type={"text"}
-        required
-        placeholder="state"
-        value={state}
-        onChange={(e) => setState(e.target.value)}
-      />
-      <input
-        type={"text"}
-        required
-        placeholder="zip"
-        value={zip}
-        minLength={5}
-        maxLength={5}
-        onChange={(e) => setZip(e.target.value)}
-      />
-      <PaymentElement />
+      <div css={formContainerStyle}>
+        <div css={customFormStyle}>
+          <input
+            type={"text"}
+            required
+            placeholder="first name"
+            value={first}
+            onChange={(e) => setFirst(e.target.value)}
+          />
+          <input
+            type={"text"}
+            required
+            placeholder="last name"
+            value={last}
+            onChange={(e) => setLast(e.target.value)}
+          />
+          <input
+            type={"email"}
+            required
+            placeholder="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type={"text"}
+            required
+            placeholder=" delivery address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+          <input
+            type={"text"}
+            required
+            placeholder="city"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+          <input
+            type={"text"}
+            required
+            placeholder="state"
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+          />
+          <input
+            type={"text"}
+            required
+            placeholder="zip"
+            value={zip}
+            minLength={5}
+            maxLength={5}
+            onChange={(e) => setZip(e.target.value)}
+          />
+        </div>
+        <div css={stripeFormStyle}>
+          <PaymentElement />
+        </div>
+      </div>
+
       <button>Place order</button>
     </form>
   );
