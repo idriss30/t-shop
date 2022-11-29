@@ -25,7 +25,7 @@ const formStyle = {
       borderBottom: "1px solid red",
     },
     "@media(max-width:420px)": {
-      width: "100%",
+      width: "90%",
     },
   },
   button: {
@@ -40,7 +40,7 @@ const formStyle = {
     borderRadius: "2rem",
 
     "@media(max-width:420px)": {
-      width: "70%",
+      width: "100%",
     },
   },
 };
@@ -52,18 +52,32 @@ const formContainerStyle = {
   justifyContent: "space-between",
   width: "100%",
   height: "100%",
+  "@media(max-width:820px)": {
+    flexDirection: "column",
+  },
 };
 
 const customFormStyle = {
   flexBasis: "45%",
+  "@media(max-width:820px)": {
+    marginBottom: "2rem",
+  },
 };
 const stripeFormStyle = {
   flexBasis: "45%",
   backgroundColor: "whiteSmoke",
   padding: "1rem",
+  "@media(max-width:820px)": {
+    width: "75%",
+  },
+  "@media(max-width:420px)": {
+    width: "90%",
+  },
 };
 
 const CheckoutForm = () => {
+  const stripe = useStripe();
+  const elements = useElements();
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
   const [email, setEmail] = useState("");
@@ -71,6 +85,8 @@ const CheckoutForm = () => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
+  const [popup, setPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
   const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
   const userInfo = myUseSelector((state) => state.user.userInfo);
 
@@ -89,6 +105,15 @@ const CheckoutForm = () => {
       autoFillForm(userInfo);
     }
   }, [isLoggedIn, userInfo]);
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    if (!stripe || elements) {
+      setPopup(true);
+      setPopupMessage("stripe not loaded");
+      return;
+    }
+  };
 
   return (
     <form css={formStyle}>
