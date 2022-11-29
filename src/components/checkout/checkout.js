@@ -71,7 +71,7 @@ const Checkout = () => {
 
   return (
     <>
-      {popup && <Popup message={popupMessage} />}
+      {popup && <Popup message={popupMessage} remove={() => setPopup(false)} />}
       <section css={sectionStyle}>
         {!isLoggedIn && <InviteToLogin />}
         {clientSecret && (
