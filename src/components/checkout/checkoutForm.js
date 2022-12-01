@@ -112,41 +112,6 @@ const CheckoutForm = () => {
   }, [isLoggedIn, userInfo]);
 
   useEffect(() => {
-    if (!stripe) {
-      return;
-    }
-
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
-    );
-
-    if (!clientSecret) {
-      return;
-    }
-
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
-        case "succeeded":
-          setPopupMessage("Payment succeeded!");
-          setPopup(true);
-          break;
-        case "processing":
-          setPopupMessage("Your payment is processing.");
-          setPopup(true);
-          break;
-        case "requires_payment_method":
-          setPopupMessage("Your payment was not successful, please try again.");
-          setPopup(true);
-          break;
-        default:
-          setPopupMessage("Something went wrong.");
-          setPopup(true);
-          break;
-      }
-    });
-  }, [stripe]);
-
-  useEffect(() => {
     if (popup) {
       setTimeout(() => {
         setPopup(false);
@@ -160,15 +125,16 @@ const CheckoutForm = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/",
+        return_url: "http://localhost:3000",
       },
+      redirect: "if_required",
     });
     setIsLoading(false);
-    if (error.type === "card_error" || error.type === "validation_error") {
+    if (error) {
       setPopupMessage(error.message);
       setPopup(true);
     } else {
-      setPopupMessage("An unexpected error occurred.");
+      setPopupMessage("your order has been placed");
       setPopup(true);
     }
   };
@@ -183,7 +149,7 @@ const CheckoutForm = () => {
       {popup && <Popup message={popupMessage} remove={removePopup} />}
       <form css={formStyle} onSubmit={handleFormSubmit}>
         <div css={formContainerStyle}>
-          {/*   <div css={customFormStyle}>
+          <div css={customFormStyle}>
             <input
               type={"text"}
               required
@@ -235,7 +201,7 @@ const CheckoutForm = () => {
               maxLength={5}
               onChange={(e) => setZip(e.target.value)}
             />
-          </div> */}
+          </div>
           <div css={stripeFormStyle}>
             <PaymentElement options={paymentElementOptions} />
           </div>
