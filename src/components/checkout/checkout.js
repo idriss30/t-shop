@@ -7,23 +7,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./checkoutForm";
 import axios from "axios";
 import Popup from "../popup/popup";
-
+import { sectionStyle } from "../reusableStyle";
 const stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE}`);
-const sectionStyle = {
-  width: "70%",
-  minHeight: "60vh",
-  margin: "6rem auto",
-  "@media(max-width:620px)": {
-    width: "75%",
-  },
-  h1: {
-    fontSize: "1.1rem",
-    padding: "1rem 0 .5rem 0",
-  },
-  a: {
-    color: "red",
-  },
-};
 
 const InviteToLogin = () => {
   return (
@@ -67,7 +52,6 @@ const Checkout = () => {
     if (products.length === 0) {
       setRedirect(true);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const appearance = {
