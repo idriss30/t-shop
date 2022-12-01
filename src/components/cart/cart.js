@@ -2,17 +2,10 @@
 import { useEffect, useState } from "react";
 import { decrement, increment, remove } from "../../redux/cartSlice";
 import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
-
+import { sectionStyle } from "../reusableStyle";
 import { totalPrice } from "../reusable";
 import { Link, Navigate } from "react-router-dom";
-const sectionStyle = {
-  minHeight: "70vh",
-  width: "70%",
-  margin: "6rem auto",
-  "@media(max-width:620px)": {
-    width: "75%",
-  },
-};
+
 const containerStyle = {
   minHeight: "70vh",
   display: "grid",
