@@ -7,6 +7,8 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import { useEffect } from "react";
+import Loader from "../loader/loader";
+import Popup from "../popup/popup";
 
 const formStyle = {
   width: "100%",
@@ -87,6 +89,7 @@ const CheckoutForm = () => {
   const [zip, setZip] = useState("");
   const [popup, setPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
   const userInfo = myUseSelector((state) => state.user.userInfo);
 
@@ -100,84 +103,147 @@ const CheckoutForm = () => {
     setZip(user.zip);
   };
 
+  const removePopup = () => setPopup(false);
+
   useEffect(() => {
     if (isLoggedIn) {
       autoFillForm(userInfo);
     }
   }, [isLoggedIn, userInfo]);
 
+  useEffect(() => {
+    if (!stripe) {
+      return;
+    }
+
+    const clientSecret = new URLSearchParams(window.location.search).get(
+      "payment_intent_client_secret"
+    );
+
+    if (!clientSecret) {
+      return;
+    }
+
+    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+      switch (paymentIntent.status) {
+        case "succeeded":
+          setPopupMessage("Payment succeeded!");
+          setPopup(true);
+          break;
+        case "processing":
+          setPopupMessage("Your payment is processing.");
+          setPopup(true);
+          break;
+        case "requires_payment_method":
+          setPopupMessage("Your payment was not successful, please try again.");
+          setPopup(true);
+          break;
+        default:
+          setPopupMessage("Something went wrong.");
+          setPopup(true);
+          break;
+      }
+    });
+  }, [stripe]);
+
+  useEffect(() => {
+    if (popup) {
+      setTimeout(() => {
+        setPopup(false);
+      }, 2000);
+    }
+  }, [popup]);
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    if (!stripe || elements) {
+    setIsLoading(true);
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: "http://localhost:3000/",
+      },
+    });
+    setIsLoading(false);
+    if (error.type === "card_error" || error.type === "validation_error") {
+      setPopupMessage(error.message);
       setPopup(true);
-      setPopupMessage("stripe not loaded");
-      return;
+    } else {
+      setPopupMessage("An unexpected error occurred.");
+      setPopup(true);
     }
   };
 
-  return (
-    <form css={formStyle}>
-      <div css={formContainerStyle}>
-        <div css={customFormStyle}>
-          <input
-            type={"text"}
-            required
-            placeholder="first name"
-            value={first}
-            onChange={(e) => setFirst(e.target.value)}
-          />
-          <input
-            type={"text"}
-            required
-            placeholder="last name"
-            value={last}
-            onChange={(e) => setLast(e.target.value)}
-          />
-          <input
-            type={"email"}
-            required
-            placeholder="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type={"text"}
-            required
-            placeholder=" delivery address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <input
-            type={"text"}
-            required
-            placeholder="city"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
-          <input
-            type={"text"}
-            required
-            placeholder="state"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-          />
-          <input
-            type={"text"}
-            required
-            placeholder="zip"
-            value={zip}
-            minLength={5}
-            maxLength={5}
-            onChange={(e) => setZip(e.target.value)}
-          />
-        </div>
-        <div css={stripeFormStyle}>
-          <PaymentElement />
-        </div>
-      </div>
+  const paymentElementOptions = {
+    layout: "tabs",
+  };
 
-      <button>Place order</button>
-    </form>
+  return (
+    <>
+      {isLoading && <Loader />}
+      {popup && <Popup message={popupMessage} remove={removePopup} />}
+      <form css={formStyle} onSubmit={handleFormSubmit}>
+        <div css={formContainerStyle}>
+          {/*   <div css={customFormStyle}>
+            <input
+              type={"text"}
+              required
+              placeholder="first name"
+              value={first}
+              onChange={(e) => setFirst(e.target.value)}
+            />
+            <input
+              type={"text"}
+              required
+              placeholder="last name"
+              value={last}
+              onChange={(e) => setLast(e.target.value)}
+            />
+            <input
+              type={"email"}
+              required
+              placeholder="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type={"text"}
+              required
+              placeholder=" delivery address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <input
+              type={"text"}
+              required
+              placeholder="city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+            <input
+              type={"text"}
+              required
+              placeholder="state"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+            />
+            <input
+              type={"text"}
+              required
+              placeholder="zip"
+              value={zip}
+              minLength={5}
+              maxLength={5}
+              onChange={(e) => setZip(e.target.value)}
+            />
+          </div> */}
+          <div css={stripeFormStyle}>
+            <PaymentElement options={paymentElementOptions} />
+          </div>
+        </div>
+
+        <button>Place order</button>
+      </form>
+    </>
   );
 };
 
