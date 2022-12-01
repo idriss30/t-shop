@@ -4,15 +4,7 @@ import { useEffect, useState } from "react";
 import manDisplay from "../../assets/black2-front.jpg";
 import womanDisplay from "../../assets/asia-front.jpg";
 import { filterProducts } from "../reusable";
-
-const sectionStyle = {
-  width: "70%",
-  minHeight: "80vh",
-  margin: "6rem auto",
-  "@media(max-width:620px)": {
-    width: "75%",
-  },
-};
+import { sectionStyle } from "../reusableStyle";
 
 const displayStyle = {
   width: "50%",

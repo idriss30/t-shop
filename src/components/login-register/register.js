@@ -4,15 +4,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../loader/loader";
 import Popup from "../popup/popup";
-
-const sectionStyle = {
-  width: "70%",
-  minHeight: "60vh",
-  margin: "6rem auto",
-  "@media(max-width:620px)": {
-    width: "75%",
-  },
-};
+import { sectionStyle } from "../reusableStyle";
 
 const containerStyle = {
   h1: {

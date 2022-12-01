@@ -3,24 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useMyCustomFetch from "../customHooks/customFetch";
 import Loader from "../loader/loader";
-
-const sectionStyle = {
-  width: "70%",
-  minHeight: "60vh",
-  margin: "6rem auto",
-  h1: {
-    fontSize: "1.1rem",
-    padding: "1rem 0 .5rem 0",
-  },
-  a: {
-    display: "inline-block",
-    color: "red",
-    margin: "1rem 0",
-  },
-  "@media(max-width:620px)": {
-    width: "75%",
-  },
-};
+import { sectionStyle } from "../reusableStyle";
 
 const noOrderStyle = {
   p: {
@@ -38,9 +21,9 @@ const NoOrders = ({ firstName }) => {
   );
 };
 
-const renderOrders = ({ orders }) => {
+/* const renderOrders = ({ orders }) => {
   return <div></div>;
-};
+}; */
 
 const Orders = ({ firstName, hideOrders }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -49,8 +32,8 @@ const Orders = ({ firstName, hideOrders }) => {
     `${process.env.REACT_APP_URL}/api/cart/orders/${firstName}`,
     { orders: [] }
   );
-  const { loading, fetchErr, data } = orderState;
-  const ordersInfo = data.orders;
+  const { loading, fetchErr } = orderState;
+  // const ordersInfo = data.orders;
   useEffect(() => {
     if (loading) {
       setIsLoading(true);

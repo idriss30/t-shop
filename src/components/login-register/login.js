@@ -5,15 +5,7 @@ import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
 import { getUser } from "../../redux/userSlice";
 import Loader from "../loader/loader";
 import Popup from "../popup/popup";
-
-const sectionStyle = {
-  width: "70%",
-  minHeight: "60vh",
-  margin: "6rem auto",
-  "@media(max-width:620px)": {
-    width: "75%",
-  },
-};
+import { sectionStyle } from "../reusableStyle";
 const sectionContainerStyle = {
   display: "flex",
   justifyContent: "space-between",

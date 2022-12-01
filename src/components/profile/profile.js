@@ -12,15 +12,8 @@ import {
   resetUserError,
 } from "../../redux/userSlice";
 import Orders from "./order";
+import { sectionStyle } from "../reusableStyle";
 
-const sectionStyle = {
-  width: "70%",
-  minHeight: "60vh",
-  margin: "6rem auto",
-  "@media(max-width:620px)": {
-    width: "75%",
-  },
-};
 const header2Style = {
   display: "inline-block",
   fontSize: ".9rem",

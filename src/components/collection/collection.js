@@ -1,13 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { Link } from "react-router-dom";
-const sectionStyle = {
-  width: "70%",
-  minHeight: "80vh",
-  margin: "6rem auto",
-  "@media(max-width:620px)": {
-    width: "75%",
-  },
-};
+import { sectionStyle } from "../reusableStyle";
 
 const containerStyle = {
   width: "100%",
