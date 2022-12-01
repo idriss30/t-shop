@@ -130,6 +130,7 @@ const ProductDisplay = ({ product }) => {
     }, 1200);
   };
 
+  const removePopup = () => setPopup(false);
   const selectSize = (e) => {
     return setSize(e.target.innerText.toLowerCase());
   };
@@ -246,7 +247,11 @@ const ProductDisplay = ({ product }) => {
           </div>
         </div>
       </section>
-      {isPopup === true ? <Popup message={popupMessage} /> : ""}
+      {isPopup === true ? (
+        <Popup message={popupMessage} remove={removePopup} />
+      ) : (
+        ""
+      )}
     </>
   );
 };
