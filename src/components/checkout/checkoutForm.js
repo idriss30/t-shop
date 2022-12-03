@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
+import { myUseSelector } from "../../redux/reduxHooks";
 import { useState } from "react";
 import {
   useStripe,
@@ -10,7 +10,8 @@ import { useEffect } from "react";
 import Loader from "../loader/loader";
 import Popup from "../popup/popup";
 import axios from "axios";
-import { reset } from "../../redux/cartSlice";
+import { totalPrice } from "../reusable";
+import { Navigate } from "react-router-dom";
 
 const formStyle = {
   width: "100%",
@@ -92,9 +93,10 @@ const CheckoutForm = () => {
   const [popup, setPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [redirect, setRedirect] = useState(false);
   const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
   const userInfo = myUseSelector((state) => state.user.userInfo);
-  const dispatch = myUseDispatch();
+  const products = myUseSelector((state) => state.cart.products);
 
   const autoFillForm = (user) => {
     setFirst(user.firstname);
@@ -124,6 +126,8 @@ const CheckoutForm = () => {
 
   const postOrderToDatabase = async () => {
     let id = null;
+    const total = totalPrice(products);
+    const items = JSON.stringify({ ...products });
     if (userInfo.length > 0) {
       id = userInfo.id;
     }
@@ -137,6 +141,8 @@ const CheckoutForm = () => {
       state,
       zip,
       id,
+      total,
+      items,
     };
     const postResponse = await axios.post(
       `${process.env.REACT_APP_URL}/api/cart/orders`,
@@ -148,10 +154,16 @@ const CheckoutForm = () => {
     return postResponse;
   };
 
+  const redirectToHome = () => {
+    return setTimeout(() => {
+      setRedirect(true);
+    }, 2000);
+  };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    /*    const { error } = await stripe.confirmPayment({
+    const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: "http://localhost:3000",
@@ -163,12 +175,16 @@ const CheckoutForm = () => {
       setPopupMessage(error.message);
       setPopup(true);
     } else {
-      
-    } */
-    setIsLoading(false);
-    const response = await postOrderToDatabase();
-    console.log(response.data);
-    console.log(response.status);
+      try {
+        await postOrderToDatabase();
+        setPopupMessage("your order has been placed");
+        setPopup(true);
+        redirectToHome();
+      } catch (error) {
+        setPopupMessage(error.message);
+        setPopup(true);
+      }
+    }
   };
 
   const paymentElementOptions = {
@@ -177,6 +193,7 @@ const CheckoutForm = () => {
 
   return (
     <>
+      {redirect && <Navigate to="/" />}
       {isLoading && <Loader />}
       {popup && <Popup message={popupMessage} remove={removePopup} />}
       <form css={formStyle} onSubmit={handleFormSubmit}>
@@ -234,9 +251,9 @@ const CheckoutForm = () => {
               onChange={(e) => setZip(e.target.value)}
             />
           </div>
-          {/* <div css={stripeFormStyle}>
+          <div css={stripeFormStyle}>
             <PaymentElement options={paymentElementOptions} />
-          </div> */}
+          </div>
         </div>
 
         <button>Place order</button>

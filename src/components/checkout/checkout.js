@@ -52,6 +52,7 @@ const Checkout = () => {
     if (products.length === 0) {
       setRedirect(true);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const appearance = {
