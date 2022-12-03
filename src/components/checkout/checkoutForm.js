@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { myUseSelector } from "../../redux/reduxHooks";
+import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
 import { useState } from "react";
 import {
   useStripe,
@@ -9,6 +9,8 @@ import {
 import { useEffect } from "react";
 import Loader from "../loader/loader";
 import Popup from "../popup/popup";
+import axios from "axios";
+import { reset } from "../../redux/cartSlice";
 
 const formStyle = {
   width: "100%",
@@ -92,6 +94,7 @@ const CheckoutForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
   const userInfo = myUseSelector((state) => state.user.userInfo);
+  const dispatch = myUseDispatch();
 
   const autoFillForm = (user) => {
     setFirst(user.firstname);
@@ -119,10 +122,36 @@ const CheckoutForm = () => {
     }
   }, [popup]);
 
+  const postOrderToDatabase = async () => {
+    let id = null;
+    if (userInfo.length > 0) {
+      id = userInfo.id;
+    }
+
+    const order = {
+      first,
+      last,
+      email,
+      address,
+      city,
+      state,
+      zip,
+      id,
+    };
+    const postResponse = await axios.post(
+      `${process.env.REACT_APP_URL}/api/cart/orders`,
+      {
+        order,
+      }
+    );
+
+    return postResponse;
+  };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    const { error } = await stripe.confirmPayment({
+    /*    const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: "http://localhost:3000",
@@ -134,9 +163,12 @@ const CheckoutForm = () => {
       setPopupMessage(error.message);
       setPopup(true);
     } else {
-      setPopupMessage("your order has been placed");
-      setPopup(true);
-    }
+      
+    } */
+    setIsLoading(false);
+    const response = await postOrderToDatabase();
+    console.log(response.data);
+    console.log(response.status);
   };
 
   const paymentElementOptions = {
@@ -202,9 +234,9 @@ const CheckoutForm = () => {
               onChange={(e) => setZip(e.target.value)}
             />
           </div>
-          <div css={stripeFormStyle}>
+          {/* <div css={stripeFormStyle}>
             <PaymentElement options={paymentElementOptions} />
-          </div>
+          </div> */}
         </div>
 
         <button>Place order</button>
