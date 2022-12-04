@@ -14,4 +14,23 @@ const sectionStyle = {
   },
 };
 
-export { sectionStyle };
+const reducedPopupStyle = {
+  width: "75%",
+  height: "100vh",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  position: "fixed",
+  top: "0",
+  zIndex: "1000",
+};
+
+const reducedLoaderStyle = {
+  position: "fixed",
+  backgroundColor: "white",
+  top: "0",
+  width: "75%",
+  height: "100vh",
+  zIndex: "1000",
+};
+export { sectionStyle, reducedPopupStyle, reducedLoaderStyle };
