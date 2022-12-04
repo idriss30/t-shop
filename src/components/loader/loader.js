@@ -62,9 +62,9 @@ const loaderStyle = {
   animation: `${shadowRolling} 2s linear infinite`,
 };
 
-const Loader = () => {
+const Loader = ({ style }) => {
   return (
-    <div css={loaderSectionStyle}>
+    <div css={style ? style : loaderSectionStyle}>
       <div css={loaderContainerStyle}>
         <span data-testid="loader" css={loaderStyle}></span>
       </div>
