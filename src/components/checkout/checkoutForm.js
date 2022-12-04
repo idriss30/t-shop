@@ -12,6 +12,7 @@ import Popup from "../popup/popup";
 import axios from "axios";
 import { totalPrice } from "../reusable";
 import { Navigate } from "react-router-dom";
+import { reducedLoaderStyle, reducedPopupStyle } from "../reusableStyle";
 
 const formStyle = {
   width: "100%",
@@ -166,7 +167,7 @@ const CheckoutForm = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000",
+        return_url: "http://localhost:3000/success",
       },
       redirect: "if_required",
     });
@@ -194,8 +195,14 @@ const CheckoutForm = () => {
   return (
     <>
       {redirect && <Navigate to="/" />}
-      {isLoading && <Loader />}
-      {popup && <Popup message={popupMessage} remove={removePopup} />}
+      {isLoading && <Loader style={reducedLoaderStyle} />}
+      {popup && (
+        <Popup
+          message={popupMessage}
+          remove={removePopup}
+          style={reducedPopupStyle}
+        />
+      )}
       <form css={formStyle} onSubmit={handleFormSubmit}>
         <div css={formContainerStyle}>
           <div css={customFormStyle}>
