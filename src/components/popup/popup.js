@@ -45,7 +45,7 @@ const buttonStyle = {
   right: "1rem",
 };
 
-const Popup = ({ message, remove }) => {
+const Popup = ({ message, remove, style }) => {
   const [visibility, setVisibility] = useState(true);
   useEffect(() => {
     setTimeout(() => {
@@ -55,7 +55,7 @@ const Popup = ({ message, remove }) => {
   return (
     <>
       {visibility && (
-        <div aria-label="popup" css={popupStyleDisplay}>
+        <div aria-label="popup" css={style ? style : popupStyleDisplay}>
           <div css={popupContainer}>
             <div css={messageContainer}>
               <p>{message}</p>
