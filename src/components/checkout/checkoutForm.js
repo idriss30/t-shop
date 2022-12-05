@@ -194,7 +194,7 @@ const CheckoutForm = () => {
 
   return (
     <>
-      {redirect && <Navigate to="/" />}
+      {redirect && <Navigate to="/success" />}
       {isLoading && <Loader style={reducedLoaderStyle} />}
       {popup && (
         <Popup
