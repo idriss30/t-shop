@@ -1,46 +1,51 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from "react";
 import { reset } from "../../redux/cartSlice";
-import { myUseDispatch } from "../../redux/reduxHooks";
+import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
 import { sectionStyle } from "../reusableStyle";
-import { useStripe } from "@stripe/react-stripe-js";
-import finalPropsSelectorFactory from "react-redux/es/connect/selectorFactory";
+
 import { Navigate } from "react-router-dom";
 
+const containerStyle = {
+  height: "60vh",
+  justifyContent: "center",
+  fontSize: "1.5rem",
+  color: "red",
+  display: "flex",
+  alignItems: "center",
+};
+
 const Success = () => {
-  const [content, setContent] = useState("checking up stripe payment");
-  const [redirect, setRedirect] = useState(finalPropsSelectorFactory);
-  const stripe = useStripe();
+  const [content, setContent] = useState("cleaning up please wait...");
+  const products = myUseSelector((state) => state.cart.products);
+
+  const [redirect, setRedirect] = useState(false);
+
   const dispatch = myUseDispatch();
 
   const redirectToHome = () => {
+    setContent("cleanup done you will be redirected");
     return setTimeout(() => {
       setRedirect(true);
     }, 2500);
   };
 
   useEffect(() => {
-    if (!stripe) {
-      return;
-    }
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
-    );
+    dispatch(reset());
+  }, [dispatch]);
 
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      if (paymentIntent.status === "succeeded") {
-        setContent("cleaning up you will be redirected soon");
-        dispatch(reset());
-        redirectToHome();
-        return;
-      }
-    });
-  }, [stripe, dispatch]);
+  useEffect(() => {
+    if (products.length === 0) {
+      redirectToHome();
+    }
+  }, [products.length]);
 
   return (
     <>
       {redirect && <Navigate to={"/"} />}
-      <section css={sectionStyle}>{content}</section>
+      <section css={sectionStyle}>
+        <div css={containerStyle}>{content}</div>
+      </section>
     </>
   );
 };
