@@ -21,9 +21,13 @@ const NoOrders = ({ firstName }) => {
   );
 };
 
-/* const renderOrders = ({ orders }) => {
-  return <div></div>;
-}; */
+const RenderOrders = ({ orders }) => {
+  return (
+    <div>
+      <h1>Orders details </h1>
+    </div>
+  );
+};
 
 const Orders = ({ firstName, hideOrders }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +36,7 @@ const Orders = ({ firstName, hideOrders }) => {
     `${process.env.REACT_APP_URL}/api/cart/orders/${firstName}`,
     { orders: [] }
   );
-  const { loading, fetchErr } = orderState;
+  const { loading, fetchErr, data } = orderState;
   // const ordersInfo = data.orders;
   useEffect(() => {
     if (loading) {
