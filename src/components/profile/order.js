@@ -46,7 +46,11 @@ const Orders = ({ firstName, hideOrders }) => {
       setIsLoading(false);
       setContent(<NoOrders firstName={firstName} />);
     }
-  }, [loading, fetchErr, firstName]);
+    if (data) {
+      setIsLoading(false);
+      setContent(<RenderOrders orders={data.orders} />);
+    }
+  }, [loading, fetchErr, data, firstName]);
 
   return (
     <>
