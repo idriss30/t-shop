@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { myUseSelector } from "../../redux/reduxHooks";
+import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
 import { useState } from "react";
 import {
   useStripe,
@@ -84,38 +84,30 @@ const stripeFormStyle = {
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const [first, setFirst] = useState("");
-  const [last, setLast] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zip, setZip] = useState("");
+  const userInfo = myUseSelector((state) => state.user.userInfo);
+  const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
+  const dispatch = myUseDispatch();
+  const [first, setFirst] = useState(userInfo.firstname || "");
+  const [last, setLast] = useState(userInfo.lastname || "");
+  const [email, setEmail] = useState(userInfo.email || "");
+  const [address, setAddress] = useState(userInfo.address || "");
+  const [city, setCity] = useState(userInfo.city || "");
+  const [state, setState] = useState(userInfo.state || "");
+  const [zip, setZip] = useState(userInfo.zip || "");
   const [popup, setPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
-  const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
-  const userInfo = myUseSelector((state) => state.user.userInfo);
-  const products = myUseSelector((state) => state.cart.products);
 
-  const autoFillForm = (user) => {
-    setFirst(user.firstname);
-    setLast(user.lastname);
-    setEmail(user.email);
-    setAddress(user.address);
-    setCity(user.city);
-    setState(user.state);
-    setZip(user.zip);
-  };
+  const products = myUseSelector((state) => state.cart.products);
 
   const removePopup = () => setPopup(false);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      autoFillForm(userInfo);
+    if (isLoggedIn && !userInfo.length >= 0) {
+      setIsLoading(true);
     }
-  }, [isLoggedIn, userInfo]);
+  }, [isLoggedIn, userInfo.length, dispatch]);
 
   useEffect(() => {
     if (popup) {
@@ -126,12 +118,9 @@ const CheckoutForm = () => {
   }, [popup]);
 
   const postOrderToDatabase = async () => {
-    let id = null;
+    let id = userInfo.id || null;
     const total = totalPrice(products);
     const items = JSON.stringify({ ...products });
-    if (userInfo.length > 0) {
-      id = userInfo.id;
-    }
 
     const order = {
       first,
@@ -230,7 +219,7 @@ const CheckoutForm = () => {
             <input
               type={"text"}
               required
-              placeholder=" delivery address"
+              placeholder="delivery address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
