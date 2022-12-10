@@ -103,9 +103,38 @@ const CheckoutForm = () => {
 
   const removePopup = () => setPopup(false);
 
+  const getUserInfoIfLoggeIn = async () => {
+    const sendRequest = await axios.get(
+      `${process.env.REACT_APP_URL}/api/users/profile`,
+      { withCredentials: true }
+    );
+    return sendRequest.data;
+  };
+
+  const autoFillForm = (user) => {
+    setFirst(user.firstname);
+    setLast(user.lastname);
+    setEmail(user.email);
+    setAddress(user.address);
+    setCity(user.city);
+    setState(user.state);
+    setZip(user.zip);
+  };
+
   useEffect(() => {
     if (isLoggedIn && !userInfo.length >= 0) {
       setIsLoading(true);
+      getUserInfoIfLoggeIn()
+        .then((response) => {
+          let userDetails = { ...response.user };
+          setIsLoading(false);
+          autoFillForm(userDetails);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          setPopupMessage(error.message);
+          setPopup(true);
+        });
     }
   }, [isLoggedIn, userInfo.length, dispatch]);
 
