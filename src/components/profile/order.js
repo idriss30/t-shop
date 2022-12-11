@@ -22,9 +22,33 @@ const NoOrders = ({ firstName }) => {
 };
 
 const RenderOrders = ({ orders }) => {
+  const orderItems = [];
+  orders.forEach((order) => {
+    orderItems.push(JSON.parse(order.items));
+  });
+  console.log(orderItems);
   return (
     <div>
-      <h1>Orders details </h1>
+      <p>we have {orders.length} order(s) on you</p>
+      <ul>
+        {orders.map((order, index) => {
+          return (
+            <li key={order.id}>
+              <p>
+                order {index + 1} created :
+                {new Date(`${order.createdAt}`).toLocaleString()}
+              </p>
+              <div>
+                <p>
+                  To be delivered at:
+                  {` ${order.address} ${order.city} ${order.state} ${order.zip}`}
+                </p>
+                <div></div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };
