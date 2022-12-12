@@ -22,11 +22,17 @@ const NoOrders = ({ firstName }) => {
 };
 
 const RenderOrders = ({ orders }) => {
-  const orderItems = [];
-  orders.forEach((order) => {
-    orderItems.push(JSON.parse(order.items));
-  });
-  console.log(orderItems);
+  const [items, setItems] = useState([]);
+  // push orders items to items array
+  useEffect(() => {
+    const elements = [];
+    orders.forEach((order, index) => {
+      elements.push(JSON.parse(order.items));
+      console.log(order[index].items);
+    });
+    setItems(elements);
+  }, [orders]);
+
   return (
     <div>
       <p>we have {orders.length} order(s) on you</p>
