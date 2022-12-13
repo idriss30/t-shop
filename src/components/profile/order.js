@@ -26,12 +26,19 @@ const RenderOrders = ({ orders }) => {
   // push orders items to items array
   useEffect(() => {
     const elements = [];
-    orders.forEach((order, index) => {
+    orders.forEach((order) => {
       elements.push(JSON.parse(order.items));
-      console.log(order[index].items);
     });
     setItems(elements);
   }, [orders]);
+
+  items.forEach((element) => {
+    if (Object.keys(element).length > 1) {
+      for (let key in element) {
+        console.log(element[key]);
+      }
+    }
+  });
 
   return (
     <div>
@@ -49,7 +56,12 @@ const RenderOrders = ({ orders }) => {
                   To be delivered at:
                   {` ${order.address} ${order.city} ${order.state} ${order.zip}`}
                 </p>
-                <div></div>
+                <div>
+                  {items.forEach((element, index) => {
+                    if (Object.keys(element).length > 1) {
+                    }
+                  })}
+                </div>
               </div>
             </li>
           );
