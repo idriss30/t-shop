@@ -22,23 +22,22 @@ const NoOrders = ({ firstName }) => {
 };
 
 const RenderOrders = ({ orders }) => {
-  const [items, setItems] = useState([]);
-  // push orders items to items array
-  useEffect(() => {
-    const elements = [];
-    orders.forEach((order) => {
-      elements.push(JSON.parse(order.items));
-    });
-    setItems(elements);
-  }, [orders]);
+  const [ordersItems, setOrdersItems] = useState([]);
 
-  items.forEach((element) => {
-    if (Object.keys(element).length > 1) {
-      for (let key in element) {
-        console.log(element[key]);
-      }
-    }
-  });
+  useEffect(() => {
+    const getDetails = () => {
+      let itemsFromJsonToObject = [];
+      orders.forEach((order) => {
+        const itemsToObject = JSON.parse(order.items);
+        itemsFromJsonToObject.push(itemsToObject);
+      });
+      console.log(itemsFromJsonToObject);
+      let finalArr = itemsFromJsonToObject.flat();
+
+      return finalArr;
+    };
+    setOrdersItems(getDetails());
+  }, [orders]);
 
   return (
     <div>
@@ -49,19 +48,15 @@ const RenderOrders = ({ orders }) => {
             <li key={order.id}>
               <p>
                 order {index + 1} created :
-                {new Date(`${order.createdAt}`).toLocaleString()}
+                {new Date(`${order.createdAt}`).toLocaleString()} for a total of
+                <span> ${order.totalOrder}</span>
               </p>
               <div>
                 <p>
                   To be delivered at:
                   {` ${order.address} ${order.city} ${order.state} ${order.zip}`}
                 </p>
-                <div>
-                  {items.forEach((element, index) => {
-                    if (Object.keys(element).length > 1) {
-                    }
-                  })}
-                </div>
+                <div></div>
               </div>
             </li>
           );
@@ -90,6 +85,8 @@ const Orders = ({ firstName, hideOrders }) => {
     }
     if (data) {
       setIsLoading(false);
+      if (data.orders.length === 0)
+        return setContent(<NoOrders firstName={firstName} />);
       setContent(<RenderOrders orders={data.orders} />);
     }
   }, [loading, fetchErr, data, firstName]);
