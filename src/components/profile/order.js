@@ -22,23 +22,6 @@ const NoOrders = ({ firstName }) => {
 };
 
 const RenderOrders = ({ orders }) => {
-  const [ordersItems, setOrdersItems] = useState([]);
-
-  useEffect(() => {
-    const getDetails = () => {
-      let itemsFromJsonToObject = [];
-      orders.forEach((order) => {
-        const itemsToObject = JSON.parse(order.items);
-        itemsFromJsonToObject.push(itemsToObject);
-      });
-      console.log(itemsFromJsonToObject);
-      let finalArr = itemsFromJsonToObject.flat();
-
-      return finalArr;
-    };
-    setOrdersItems(getDetails());
-  }, [orders]);
-
   return (
     <div>
       <p>we have {orders.length} order(s) on you</p>
@@ -56,7 +39,22 @@ const RenderOrders = ({ orders }) => {
                   To be delivered at:
                   {` ${order.address} ${order.city} ${order.state} ${order.zip}`}
                 </p>
-                <div></div>
+              </div>
+              <div>
+                {Object.values(JSON.parse(order.items)).map((item) => {
+                  return (
+                    <div key={order.id}>
+                      <p>Items for this order:</p>
+                      <p>
+                        <img
+                          src={require(`../../assets/${item.img}-display.jpg`)}
+                          alt={item.name}
+                        />
+                        <span>{item.name.toLowerCase()}</span>
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </li>
           );
