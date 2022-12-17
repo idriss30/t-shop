@@ -147,9 +147,9 @@ const CheckoutForm = () => {
   }, [popup]);
 
   const postOrderToDatabase = async () => {
-    let id = userInfo.id || null;
+    let id = userInfo.id;
     const total = totalPrice(products);
-    const items = JSON.stringify({ ...products });
+    const items = JSON.stringify(products);
 
     const order = {
       first,
@@ -159,7 +159,7 @@ const CheckoutForm = () => {
       city,
       state,
       zip,
-      id,
+      id: id || null,
       total,
       items,
     };
