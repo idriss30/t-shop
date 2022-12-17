@@ -7,7 +7,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./checkoutForm";
 import axios from "axios";
 import Popup from "../popup/popup";
-import { reducedPopupStyle, sectionStyle } from "../reusableStyle";
+import { sectionStyle } from "../reusableStyle";
 const stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE}`);
 
 const InviteToLogin = () => {
@@ -43,7 +43,7 @@ const Checkout = () => {
         setClientSecret(response.clientSecret);
       })
       .catch((error) => {
-        setPopupMessage(error);
+        setPopupMessage(error.message);
         setPopup(true);
       });
   }, [products]);
@@ -66,13 +66,7 @@ const Checkout = () => {
   return (
     <>
       {redirect && <Navigate to={"/"} />}
-      {popup && (
-        <Popup
-          message={popupMessage}
-          remove={() => setPopup(false)}
-          style={reducedPopupStyle}
-        />
-      )}
+      {popup && <Popup message={popupMessage} remove={() => setPopup(false)} />}
       <section css={sectionStyle}>
         {!isLoggedIn && <InviteToLogin />}
         {clientSecret && (
