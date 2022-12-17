@@ -92,10 +92,21 @@ export const NavBar = () => {
   const totalProd = myUseSelector((state) => state.cart.totalProducts);
   const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
   const [useMiniCart, setUseMiniCart] = useState(false);
+  const [loggedIn, setIsLoggedIn] = useState(false);
 
+  // manage miniCart display useEffect
   useEffect(() => {
     if (totalProd === 0 && useMiniCart) setUseMiniCart(false);
   }, [totalProd, useMiniCart]);
+  // manage loggeIn useEffect
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [isLoggedIn]);
 
   const handleOpenMiniCart = (event) => {
     event.preventDefault();
@@ -120,7 +131,7 @@ export const NavBar = () => {
           </div>
           <div css={menuLinksStyle}>
             <Link to="/login">
-              {isLoggedIn ? (
+              {loggedIn ? (
                 <img style={cartImage} src={userIconImg} alt="user icon" /> // copy cart img style to avoid css repetition
               ) : (
                 "log in"
