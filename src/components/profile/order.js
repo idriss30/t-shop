@@ -12,6 +12,43 @@ const noOrderStyle = {
   },
 };
 
+const renderOrdersStyle = {
+  minHeight: "70vh",
+  span: {
+    color: "red",
+    fontWeight: "bold",
+  },
+
+  ul: {
+    listStyle: "none",
+    li: {
+      borderTop: "2px solid black",
+    },
+    "@media(max-width:520px)": {
+      paddingLeft: "0px",
+    },
+  },
+};
+
+const orderInfoStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  height: "20vh",
+  width: "80%",
+  backgroundColor: "whiteSmoke",
+  padding: "0rem 1rem",
+  margin: "1.5rem 0",
+  img: {
+    width: "120px",
+    height: "120px",
+  },
+  "@media(max-width:520px)": {
+    width: "100%",
+    paddingRight: "0px",
+  },
+};
+
 const NoOrders = ({ firstName }) => {
   return (
     <div css={noOrderStyle}>
@@ -23,35 +60,40 @@ const NoOrders = ({ firstName }) => {
 
 const RenderOrders = ({ orders }) => {
   return (
-    <div>
-      <p>we have {orders.length} order(s) on you</p>
+    <div css={renderOrdersStyle}>
+      <p>
+        we have <span>{orders.length}</span> order(s) on you
+      </p>
       <ul>
-        {orders.map((order, index) => {
+        {orders.map((order) => {
           return (
             <li key={order.id}>
               <p>
-                order {index + 1} created :
+                One order created :
                 {new Date(`${order.createdAt}`).toLocaleString()} for a total of
                 <span> ${order.totalOrder}</span>
               </p>
               <div>
                 <p>
                   To be delivered at:
-                  {` ${order.address} ${order.city} ${order.state} ${order.zip}`}
+                  <span>{` ${order.address} ${order.city} ${order.state} ${order.zip}`}</span>
                 </p>
+                <p>Item(s) for this order:</p>
+                <p>Click image picture to see product</p>
               </div>
               <div>
                 {Object.values(JSON.parse(order.items)).map((item) => {
                   return (
-                    <div key={order.id}>
-                      <p>Items for this order:</p>
+                    <div key={order.id + Math.random()} css={orderInfoStyle}>
                       <p>
+                        {` ${item.qty} ${item.size} ${item.name.toLowerCase()}`}
+                      </p>
+                      <Link to={`/shop/${item.img}`}>
                         <img
                           src={require(`../../assets/${item.img}-display.jpg`)}
                           alt={item.name}
                         />
-                        <span>{item.name.toLowerCase()}</span>
-                      </p>
+                      </Link>
                     </div>
                   );
                 })}
