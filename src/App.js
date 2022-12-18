@@ -32,6 +32,7 @@ function App() {
         <Route path="/about" element={<Render404 />}></Route>
         <Route path="/terms" element={<Render404 />}></Route>
         <Route path="/privacy" element={<Render404 />}></Route>
+        <Route path="*" element={<Render404 />}></Route>
       </Routes>
       <Footer />
     </div>
