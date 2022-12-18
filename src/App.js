@@ -11,6 +11,7 @@ import Profile from "./components/profile/profile";
 import UpdateProfileForm from "./components/profile/updateDisplay";
 import Checkout from "./components/checkout/checkout";
 import Success from "./components/checkout/success";
+import Render404 from "./components/404/404";
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
         <Route path="/users/update" element={<UpdateProfileForm />}></Route>
         <Route path="/checkout" element={<Checkout />}></Route>
         <Route path="/success" element={<Success />}></Route>
+        <Route path="/about" element={<Render404 />}></Route>
+        <Route path="/terms" element={<Render404 />}></Route>
+        <Route path="/privacy" element={<Render404 />}></Route>
       </Routes>
       <Footer />
     </div>
