@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
 import { getUser } from "../../redux/userSlice";
 import Loader from "../loader/loader";
 import Popup from "../popup/popup";
+import { sectionFading } from "../reusable";
 import { sectionStyle } from "../reusableStyle";
 const sectionContainerStyle = {
   display: "flex",
@@ -102,6 +103,10 @@ const Login = () => {
   const [message, setPopupMessage] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  useLayoutEffect(() => {
+    sectionFading();
+  }, []);
 
   const autoRemovePopup = () => {
     return setTimeout(() => {

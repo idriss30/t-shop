@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useMyCustomFetch from "../customHooks/customFetch";
 import Loader from "../loader/loader";
+import { sectionFading } from "../reusable";
 import { sectionStyle } from "../reusableStyle";
 
 const noOrderStyle = {
@@ -109,6 +110,10 @@ const RenderOrders = ({ orders }) => {
 const Orders = ({ firstName, hideOrders }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [content, setContent] = useState("");
+
+  useLayoutEffect(() => {
+    sectionFading();
+  }, []);
   const orderState = useMyCustomFetch(
     `${process.env.REACT_APP_URL}/api/cart/orders/${firstName}`,
     { orders: [] }

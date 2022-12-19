@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Popup from "../popup/popup";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { sectionFading } from "../reusable";
 
 const sectionStyle = {
   width: "70%",
@@ -121,6 +122,9 @@ const UpdateProfileForm = () => {
     }
   };
 
+  useLayoutEffect(() => {
+    sectionFading();
+  }, []);
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setUsername(getUsername());

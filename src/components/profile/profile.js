@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { Link, Navigate } from "react-router-dom";
 import Loader from "../loader/loader";
@@ -13,6 +13,7 @@ import {
 } from "../../redux/userSlice";
 import Orders from "./order";
 import { sectionStyle } from "../reusableStyle";
+import { sectionFading } from "../reusable";
 
 const header2Style = {
   display: "inline-block",
@@ -56,6 +57,10 @@ const ProfileDisplay = ({ user, showOrders }) => {
   const deleteUserFunction = () => {
     dispatch(deleteUser(user.username));
   };
+
+  useLayoutEffect(() => {
+    sectionFading();
+  }, []);
 
   return (
     <section css={sectionStyle}>

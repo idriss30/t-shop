@@ -4,10 +4,11 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper";
 import "./swiperBullet.css";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { myUseDispatch } from "../../redux/reduxHooks";
 import { add } from "../../redux/cartSlice";
 import Popup from "../popup/popup";
+import { sectionFading } from "../reusable";
 
 const sectionStyle = {
   width: "70%",
@@ -112,6 +113,10 @@ const notSelectedListStyle = {
 const ProductDisplay = ({ product }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
+  useLayoutEffect(() => {
+    sectionFading();
   }, []);
 
   const productImgArray = [

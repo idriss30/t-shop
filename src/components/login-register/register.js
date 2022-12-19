@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../loader/loader";
 import Popup from "../popup/popup";
+import { sectionFading } from "../reusable";
 import { sectionStyle } from "../reusableStyle";
 
 const containerStyle = {
@@ -62,6 +63,10 @@ const formGroupStyle = {
 const Register = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
+  useLayoutEffect(() => {
+    sectionFading();
   }, []);
 
   const [userName, setUsername] = useState("");

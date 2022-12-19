@@ -7,8 +7,8 @@ import { Autoplay, Pagination, Navigation } from "swiper";
 import { Link } from "react-router-dom";
 import "./overWriteSlider.css";
 import blur from "../../assets/blur.png";
-import { useEffect } from "react";
-import { lazyloadImages, selectAllImages } from "../reusable";
+import { useEffect, useLayoutEffect } from "react";
+import { lazyloadImages, sectionFading, selectAllImages } from "../reusable";
 
 const sliderSectionStyle = {
   width: "70%",
@@ -47,8 +47,12 @@ const HomeSlider = ({ products }) => {
     const images = selectAllImages("lazy");
     lazyloadImages(images);
   }, []);
+  useLayoutEffect(() => {
+    sectionFading();
+  }, []);
+
   return (
-    <section css={sliderSectionStyle}>
+    <section css={sliderSectionStyle} className="section">
       <Swiper
         css={swiperContainer}
         spaceBetween={30}

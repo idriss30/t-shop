@@ -1,9 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { useLocation, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import manDisplay from "../../assets/black2-front.jpg";
 import womanDisplay from "../../assets/asia-front.jpg";
-import { filterProducts, lazyloadImages, selectAllImages } from "../reusable";
+import {
+  filterProducts,
+  lazyloadImages,
+  sectionFading,
+  selectAllImages,
+} from "../reusable";
 import { sectionStyle } from "../reusableStyle";
 import blur from "../../assets/blur.png";
 
@@ -106,6 +111,10 @@ const staticGenderObject = {
 const Display = ({ products }) => {
   const [gender, setGender] = useState("");
   const location = useLocation();
+
+  useLayoutEffect(() => {
+    sectionFading();
+  }, []);
   useEffect(() => {
     if (location.pathname === "/man") {
       setGender("man");

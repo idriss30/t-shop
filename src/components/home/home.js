@@ -10,10 +10,10 @@ import {
 import useMyCustomFetch from "../customHooks/customFetch";
 import Loader from "../loader/loader";
 import Popup from "../popup/popup";
-
 const HomeDisplay = ({ products }) => {
   const bestSellers = filterProducts(products, "bestSeller", true);
   const collectionProducts = filterProducts(products, "bestSeller", false);
+
   return (
     <>
       <HomeSlider products={bestSellers} />
