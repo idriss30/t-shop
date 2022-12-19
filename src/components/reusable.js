@@ -29,6 +29,25 @@ const totalPrice = (cart) => {
     return init + product.price * product.qty;
   }, 0);
 };
+
+const selectAllImages = () => {
+  return document.querySelectorAll("img");
+};
+const lazyLoadImagesCallback = (entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting && entry.target.dataset.src) {
+      entry.target.src = entry.target.dataset.src;
+      observer.unobserve(entry.target);
+    }
+  });
+};
+
+const observer = new IntersectionObserver(lazyLoadImagesCallback);
+
+const lazyloadImages = (images) => {
+  return images.forEach((image) => observer.observe(image));
+};
+
 export {
   saveProductsToLocalStorage,
   filterProducts,
@@ -37,4 +56,6 @@ export {
   totalCountQuantity,
   isCartInSessionStorage,
   totalPrice,
+  selectAllImages,
+  lazyloadImages,
 };
