@@ -3,8 +3,9 @@ import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import manDisplay from "../../assets/black2-front.jpg";
 import womanDisplay from "../../assets/asia-front.jpg";
-import { filterProducts } from "../reusable";
+import { filterProducts, lazyloadImages, selectAllImages } from "../reusable";
 import { sectionStyle } from "../reusableStyle";
+import blur from "../../assets/blur.png";
 
 const displayStyle = {
   width: "50%",
@@ -103,7 +104,7 @@ const staticGenderObject = {
 };
 
 const Display = ({ products }) => {
-  const [gender, setGender] = useState();
+  const [gender, setGender] = useState("");
   const location = useLocation();
   useEffect(() => {
     if (location.pathname === "/man") {
@@ -112,6 +113,12 @@ const Display = ({ products }) => {
       setGender("woman");
     }
   }, [location]);
+
+  //lazyLad images useEffect
+  useEffect(() => {
+    const images = selectAllImages();
+    lazyloadImages(images);
+  });
 
   const productsToDisplay = filterProducts(products, "category", gender);
 
@@ -123,7 +130,8 @@ const Display = ({ products }) => {
             <img
               css={imageDisplayStyle}
               alt="display tee-shirt"
-              src={gender === "man" ? manDisplay : womanDisplay}
+              src={blur}
+              data-src={gender === "man" ? manDisplay : womanDisplay}
             />
           </Link>
           <h1>
@@ -144,7 +152,8 @@ const Display = ({ products }) => {
                 <Link to={`/shop/${product.imageName}`}>
                   <img
                     css={imageGridStyle}
-                    src={require(`../../assets/${product.imageName}-front.jpg`)}
+                    src={blur}
+                    data-src={require(`../../assets/${product.imageName}-front.jpg`)}
                     alt={product.name}
                   />
                 </Link>
