@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Link } from "react-router-dom";
 import { sectionStyle } from "../reusableStyle";
+import blur from "../../assets/blur.png";
 
 const containerStyle = {
   width: "100%",
@@ -76,7 +77,8 @@ const Collection = ({ products }) => {
                 <Link to={`/shop/${product.imageName}`} css={linkStyle}>
                   <img
                     css={imagesStyle}
-                    src={require(`../../assets/${product.imageName}-front.jpg`)}
+                    src={blur}
+                    data-src={require(`../../assets/${product.imageName}-front.jpg`)}
                     alt={`${product.imageName} tee-shirt`}
                   />
                 </Link>

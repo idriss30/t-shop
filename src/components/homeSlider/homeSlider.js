@@ -6,6 +6,9 @@ import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper";
 import { Link } from "react-router-dom";
 import "./overWriteSlider.css";
+import blur from "../../assets/blur.png";
+import { useEffect } from "react";
+import { lazyloadImages, selectAllImages } from "../reusable";
 
 const sliderSectionStyle = {
   width: "70%",
@@ -40,6 +43,10 @@ const imageStyle = {
 };
 
 const HomeSlider = ({ products }) => {
+  useEffect(() => {
+    const images = selectAllImages("lazy");
+    lazyloadImages(images);
+  }, []);
   return (
     <section css={sliderSectionStyle}>
       <Swiper
@@ -63,8 +70,10 @@ const HomeSlider = ({ products }) => {
               <div css={swiperStyle}>
                 <Link to={`/shop/${product.imageName}`}>
                   <img
+                    className="lazy"
                     css={imageStyle}
-                    src={require(`../../assets/${product.imageName}-front.jpg`)}
+                    src={blur}
+                    data-src={require(`../../assets/${product.imageName}-front.jpg`)}
                     alt={`${product.imageName} tee-shirt`}
                   />
                 </Link>
