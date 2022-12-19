@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { decrement, increment, remove } from "../../redux/cartSlice";
 import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
 import { sectionStyle } from "../reusableStyle";
-import { totalPrice } from "../reusable";
+import { sectionFading, totalPrice } from "../reusable";
 import { Link, Navigate } from "react-router-dom";
 
 const containerStyle = {
@@ -141,6 +141,10 @@ export const Cart = () => {
   const totalProducts = myUseSelector((state) => state.cart.totalProducts);
   const [totalAmount, setTotalAmount] = useState(null);
   const products = myUseSelector((state) => state.cart.products);
+
+  useLayoutEffect(() => {
+    sectionFading();
+  }, []);
 
   useEffect(() => {
     const total = totalPrice(products);
