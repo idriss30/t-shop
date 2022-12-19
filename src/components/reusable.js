@@ -1,3 +1,4 @@
+import { gsap } from "gsap";
 const saveProductsToLocalStorage = (products) => {
   return localStorage.setItem("products", JSON.stringify(products));
 };
@@ -48,6 +49,14 @@ const lazyloadImages = (images) => {
   return images.forEach((image) => observer.observe(image));
 };
 
+const sectionFading = () => {
+  return gsap.fromTo(
+    "section",
+    { opacity: 0, x: "-5vw" },
+    { opacity: 1, x: 0, duration: 1 }
+  );
+};
+
 export {
   saveProductsToLocalStorage,
   filterProducts,
@@ -58,4 +67,5 @@ export {
   totalPrice,
   selectAllImages,
   lazyloadImages,
+  sectionFading,
 };
