@@ -41,11 +41,11 @@ describe("testing cart features", () => {
     const productTitle = screen.getByText(`${cartProduct.name}`);
     const productQtys = screen.getAllByText("1");
     const buttons = screen.getAllByRole("button"); // expected to have a length of including checkout button;
-    const totalAmounts = screen.getAllByText(`$${cartProduct["price"]}`);
+    const totalAmounts = screen.getByTitle("total");
     expect(productImg).toBeInTheDocument();
-    expect(productQtys).toHaveLength(2);
-    expect(buttons).toHaveLength(4);
-    expect(totalAmounts).toHaveLength(2);
+    expect(productQtys).toHaveLength(1);
+    expect(buttons).toHaveLength(3);
+    expect(totalAmounts).toHaveTextContent(`$${cartProduct.price}`);
     expect(productTitle).toBeInTheDocument();
   });
 
