@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { totalPrice } from "../reusable";
 import { remove } from "../../redux/cartSlice";
 import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
+import { gsap } from "gsap";
 
 const sectionStyle = {
   width: "25%",
@@ -93,19 +94,45 @@ const globalContainer = {
     margin: "0 auto",
   },
 };
+
 const Minicart = ({ hideMiniCart }) => {
   // take a function that should close the cart when button is clicked
   const cart = myUseSelector((state) => state.cart.products);
   const [total, setTotal] = useState(0);
+  const [reversed, setReversed] = useState(false);
+  const asideRef = useRef();
+  const timeLine = useRef();
 
   const dispatch = myUseDispatch();
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      timeLine.current = gsap.timeline().from(asideRef.current, { x: "25vw" });
+    }, asideRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
+    timeLine.current.reversed(reversed);
+  }, [reversed]);
+
   useEffect(() => {
     setTotal(() => totalPrice(cart));
   }, [cart]);
+
   return (
-    <aside aria-label="section" css={sectionStyle}>
+    <aside aria-label="section" css={sectionStyle} ref={asideRef}>
       <div css={globalContainer}>
-        <button css={closeButtonStyle} onClick={hideMiniCart}>
+        <button
+          css={closeButtonStyle}
+          onClick={() => {
+            setReversed(true);
+            setTimeout(() => {
+              hideMiniCart();
+            }, 1000);
+          }}
+        >
           X
         </button>
         <div css={cartContainerStyle}>
