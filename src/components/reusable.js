@@ -52,7 +52,7 @@ const lazyloadImages = (images) => {
 const sectionFading = () => {
   return gsap.fromTo(
     "section",
-    { opacity: 0, x: "-5vw" },
+    { opacity: 0, x: "-3vw" },
     { opacity: 1, x: 0, duration: 1 }
   );
 };
