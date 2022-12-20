@@ -66,7 +66,7 @@ describe("testing singleProduct features", () => {
         id: sampleProduct.id,
         name: sampleProduct.name,
         img: sampleProduct.imageName,
-        quantity: 1,
+        qty: 1,
         size: "small",
         price: sampleProduct.price,
       },
