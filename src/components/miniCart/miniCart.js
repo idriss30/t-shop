@@ -153,7 +153,7 @@ const Minicart = ({ hideMiniCart }) => {
                   <div css={cartTextGrid}>
                     <span>{product.name.toLowerCase()}</span>
                     <span>size: {product.size}</span>
-                    <span>Quantity : {product.quantity}</span>
+                    <span>Quantity : {product.qty}</span>
                     <span onClick={() => dispatch(remove({ ...product }))}>
                       <img
                         src={require(`../../assets/trash.png`)}

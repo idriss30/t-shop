@@ -1,5 +1,9 @@
 import React from "react";
-import { fireEvent, screen } from "@testing-library/react";
+import {
+  fireEvent,
+  screen,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import Minicart from "./miniCart";
 import { renderWithProviders } from "../../redux/testUtils";
 import { MemoryRouter } from "react-router-dom";
@@ -63,7 +67,7 @@ describe("testing minicart features", () => {
     expect(screen.queryByText(`Quantity : 1`)).not.toBeInTheDocument();
   });
 
-  test("should close cart when close button is clicked", () => {
+  test("should close cart when close button is clicked", async () => {
     renderWithProviders(
       <MemoryRouter>
         <Minicart hideMiniCart={hideCart} />
@@ -72,8 +76,8 @@ describe("testing minicart features", () => {
     const closeButton = screen.getByRole("button", { name: "X" });
     fireEvent.click(closeButton);
     // assert that the whole section got removed from the dom
-    expect(
+    await waitForElementToBeRemoved(() =>
       screen.queryByRole("complementary", { name: "section" })
-    ).not.toBeInTheDocument();
+    );
   });
 });
