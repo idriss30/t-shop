@@ -31,7 +31,7 @@ describe("testing newsLetter Component", () => {
         "access-control-allow-origin": "*",
         "access-control-allow-credentials": "true",
       })
-      .post("/api/news/email", { email: "junior3@email.com" })
+      .post("/api/news/email")
       .reply(201, { message: "email was saved" });
     render(<NewsLetter />);
     const input = screen.getByPlaceholderText("enter your email");
@@ -50,7 +50,7 @@ describe("testing newsLetter Component", () => {
         "access-control-allow-origin": "*",
         "access-control-allow-credentials": "true",
       })
-      .post("/api/news/email", { email: "junior3@email.com" })
+      .post("/api/news/email")
       .reply(400);
 
     render(<NewsLetter />);
