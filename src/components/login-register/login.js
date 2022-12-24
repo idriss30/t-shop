@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
 import { getUser } from "../../redux/userSlice";
@@ -130,11 +130,9 @@ const Login = () => {
       password,
     };
     dispatch(getUser(user)).then((response) => {
-      if (response.type.includes("rejected")) {
-        displayPopup(response.error.message);
-      } else {
-        displayPopup("setting up your account");
-      }
+      response.error
+        ? displayPopup(response.error.message)
+        : displayPopup("setting up your account");
     });
   };
 
@@ -148,7 +146,7 @@ const Login = () => {
         <div css={sectionContainerStyle}>
           <div css={loginFormStyle}>
             <h1>Log in</h1>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleLogin} title={"form"}>
               <div css={contentHeight}>
                 <input
                   type={"text"}
@@ -191,10 +189,19 @@ const Login = () => {
 const PageDisplay = () => {
   const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
   const isLoading = myUseSelector((state) => state.user.isLoading);
+  const [redirect, setRedirect] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setTimeout(() => {
+        setRedirect(true);
+      }, 1500);
+    }
+  }, [isLoggedIn]);
   return (
     <>
       {isLoading && <Loader />}
-      {isLoggedIn && <Navigate to={"/users/profile"} />}
+      {redirect && <Navigate to={"/users/profile"} />}
       <Login />
     </>
   );
