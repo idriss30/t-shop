@@ -107,7 +107,7 @@ const Minicart = ({ hideMiniCart }) => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      timeLine.current = gsap.timeline().from(asideRef.current, { x: "25vw" });
+      timeLine.current = gsap.timeline().from(asideRef.current, { x: "100%" });
     }, asideRef);
 
     return () => ctx.revert();
