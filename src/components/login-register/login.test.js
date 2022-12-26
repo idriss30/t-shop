@@ -1,16 +1,29 @@
-import { screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent, act } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import { renderWithProviders } from "../../redux/testUtils";
 import nock from "nock";
+
+import { renderWithProviders } from "../../redux/testUtils";
 import PageDisplay from "./login";
 
 describe("testing login features", () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
   beforeEach(() => {
     if (!nock.isDone()) {
       throw new Error("some endpoints were not reached");
     }
     nock.cleanAll();
   });
+
+  beforeEach(() => {
+    jest.runAllTimers();
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   test("should render login component", () => {
     renderWithProviders(
       <BrowserRouter>
@@ -38,7 +51,7 @@ describe("testing login features", () => {
     expect(registerLink).toBeInTheDocument();
   });
 
-  test("can display error server error on wrong login attempt", async () => {
+  test("can display  server error on wrong login attempt", async () => {
     nock(`${process.env.REACT_APP_URL}`)
       .defaultReplyHeaders({
         "access-control-allow-origin": "*",
@@ -67,13 +80,24 @@ describe("testing login features", () => {
   });
 
   test("can handle successful login", async () => {
+    const user = {
+      username: "test",
+      firstname: "test",
+      lastname: "tester",
+      email: "test@email.com",
+      password: "test",
+      address: "123 my apt",
+      city: "boston",
+      state: "massachusetts",
+      zip: 12345,
+    };
     nock(`${process.env.REACT_APP_URL}`)
       .defaultReplyHeaders({
         "access-control-allow-origin": "*",
         "access-control-allow-credentials": "true",
       })
       .post("/api/users/login")
-      .reply(200, { message: "log in you in" });
+      .reply(201, { user });
 
     renderWithProviders(
       <BrowserRouter>
@@ -81,15 +105,28 @@ describe("testing login features", () => {
       </BrowserRouter>
     );
     const successInputName = screen.getByPlaceholderText("username");
-    fireEvent.change(successInputName, { target: { value: "validUser" } });
+    fireEvent.change(successInputName, { target: { value: user.username } });
     const successInputPassword = screen.getByPlaceholderText("password");
     fireEvent.change(successInputPassword, {
-      target: { value: "goodPassword" },
+      target: { value: user.password },
     });
 
     const submitButton = screen.getByRole("button", { name: /log in/i });
     fireEvent.click(submitButton);
 
-    expect("");
+    expect(
+      await screen.findByText(/setting up your account/i)
+    ).toBeInTheDocument();
+
+    // check cookie
+    const checkCookie = document.cookie
+      .split("=")
+      .find((element) => element === "user");
+    expect(checkCookie).not.toBe(undefined);
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
+
+    expect(window.location.pathname).toContain("/users/profile");
   });
 });
