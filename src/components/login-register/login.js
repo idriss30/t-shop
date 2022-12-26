@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useLayoutEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
 import { getUser } from "../../redux/userSlice";
 import Loader from "../loader/loader";
@@ -189,19 +189,18 @@ const Login = () => {
 const PageDisplay = () => {
   const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
   const isLoading = myUseSelector((state) => state.user.isLoading);
-  const [redirect, setRedirect] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoggedIn) {
       setTimeout(() => {
-        setRedirect(true);
+        navigate("/users/profile");
       }, 1500);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, navigate]);
   return (
     <>
       {isLoading && <Loader />}
-      {redirect && <Navigate to={"/users/profile"} />}
       <Login />
     </>
   );
