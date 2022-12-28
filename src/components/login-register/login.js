@@ -190,17 +190,20 @@ const PageDisplay = () => {
   const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
   const isLoading = myUseSelector((state) => state.user.isLoading);
   const navigate = useNavigate();
+  const [popup, setPopup] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
+      setPopup(true);
       setTimeout(() => {
         navigate("/users/profile");
-      }, 1500);
+      }, 1200);
     }
   }, [isLoggedIn, navigate]);
   return (
     <>
       {isLoading && <Loader />}
+      {popup && <Popup message={"you are logged in redirecting"} />}
       <Login />
     </>
   );
