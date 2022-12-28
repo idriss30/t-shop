@@ -147,7 +147,7 @@ const Register = () => {
           <Link to={"/login"}>
             <p>&larr;</p>
           </Link>
-          <form onSubmit={handleFormSubmit}>
+          <form onSubmit={handleFormSubmit} title="register-form">
             <input
               type={"text"}
               placeholder="username"
