@@ -203,7 +203,7 @@ const PageDisplay = () => {
   return (
     <>
       {isLoading && <Loader />}
-      {popup && <Popup message={"you are logged in redirecting"} />}
+      {popup && <Popup message={"redirecting..."} />}
       <Login />
     </>
   );
