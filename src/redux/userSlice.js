@@ -103,13 +103,7 @@ export const userSlice = createSlice({
       });
 
     builder.addCase(logoutUser.fulfilled, (state) => {
-      clearCookie();
-      state.isLoading = false;
-      state.error = null;
-      state.isItFullFilled = true;
-      state.isLoggedIn = checkUserCookie();
-      state.isDeleted = false;
-      state.userInfo = {};
+      reset(state);
     });
     builder.addCase(logoutUser.rejected, (state, action) => {
       state.error = action.error.message;
