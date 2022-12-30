@@ -169,8 +169,8 @@ const Profile = () => {
         } else {
           setPopupMessage("network error");
           setPopup(true);
-          dispatch(resetState());
         }
+        dispatch(resetState());
         redirect();
       });
   }, [dispatch]);
