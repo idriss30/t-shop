@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../loader/loader";
 import Popup from "../popup/popup";
 import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
@@ -120,6 +120,7 @@ const Profile = () => {
   const [displayProfile, setDisplayProfile] = useState(true);
   const [emptyContainer, setEmptyContainer] = useState(false);
   const [showOrders, setShowOrders] = useState(false);
+  const navigate = useNavigate();
 
   const showOrderFunction = () => {
     setDisplayProfile(false);
@@ -194,9 +195,14 @@ const Profile = () => {
     }
   }, [isLoggedIn, error, dispatch, isDeleted]);
 
+  useEffect(() => {
+    if (tokenError) {
+      navigate("/");
+    }
+  }, [tokenError, navigate]);
+
   return (
     <>
-      {tokenError && <Navigate to={"/"} />}
       {popup && <Popup message={popupMessage} />}
       {emptyContainer && <PopupEmptyContainer />}
       {loader && <Loader />}
