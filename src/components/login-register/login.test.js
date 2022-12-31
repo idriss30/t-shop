@@ -11,9 +11,9 @@ describe("testing login features", () => {
   });
   beforeEach(() => {
     if (!nock.isDone()) {
+      nock.cleanAll();
       throw new Error("some endpoints were not reached");
     }
-    nock.cleanAll();
   });
 
   beforeEach(() => {
