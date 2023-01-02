@@ -7,7 +7,6 @@ import { BrowserRouter } from "react-router-dom";
 import nock from "nock";
 import { renderWithProviders } from "../../redux/testUtils";
 import Profile from "./profile";
-import { deleteUser, logoutUser } from "../../redux/userSlice";
 
 beforeAll(() => {
   jest.useFakeTimers();
