@@ -1,6 +1,7 @@
 import {
   screen,
   fireEvent,
+  waitFor,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
@@ -254,5 +255,171 @@ describe("can handle wrong requests", () => {
     );
 
     expect(await screen.findByText("network error")).toBeInTheDocument();
+  });
+});
+
+describe("testing orders rendering", () => {
+  afterEach(() => {
+    if (!nock.isDone()) {
+      nock.cleanAll();
+      throw Error("endpoint not reached");
+    }
+  });
+  test("can render orders components with no orders", async () => {
+    nock(`${process.env.REACT_APP_URL}`)
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "access-control-allow-credentials": "true",
+      })
+      .get("/api/users/profile")
+      .reply(200, { user: userInfo });
+
+    nock(`${process.env.REACT_APP_URL}`)
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "access-control-allow-credentials": "true",
+      })
+      .get(`/api/cart/orders/${userInfo.firstname}`)
+      .reply(400);
+
+    renderWithProviders(
+      <BrowserRouter>
+        <Profile />
+      </BrowserRouter>,
+      { preloadedState: { user: initialLoggedInState } }
+    );
+
+    expect(screen.getByText(/account information/i)).toBeInTheDocument();
+    const greetingsUser = `Welcome ${userInfo.firstname},`;
+    expect(await screen.findByText(greetingsUser)).toBeInTheDocument();
+
+    const orderButton = screen.getByRole("link", { name: /orders/i });
+    fireEvent.click(orderButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/no orders found for your account/i)
+      ).toBeInTheDocument();
+    });
+    expect(screen.getByText(/please visit the store/i)).toBeInTheDocument();
+  });
+
+  test("can navigate back to profile page on button click", async () => {
+    nock(`${process.env.REACT_APP_URL}`)
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "access-control-allow-credentials": "true",
+      })
+      .get("/api/users/profile")
+      .reply(200, { user: userInfo });
+
+    nock(`${process.env.REACT_APP_URL}`)
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "access-control-allow-credentials": "true",
+      })
+      .get(`/api/cart/orders/${userInfo.firstname}`)
+      .reply(400);
+
+    renderWithProviders(
+      <BrowserRouter>
+        <Profile />
+      </BrowserRouter>,
+      { preloadedState: { user: initialLoggedInState } }
+    );
+
+    expect(screen.getByText(/account information/i)).toBeInTheDocument();
+    const greetingsUser = `Welcome ${userInfo.firstname},`;
+    expect(await screen.findByText(greetingsUser)).toBeInTheDocument();
+
+    const orderButton = screen.getByRole("link", { name: /orders/i });
+    fireEvent.click(orderButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/no orders found for your account/i)
+      ).toBeInTheDocument();
+    });
+
+    const goBack = screen.getByRole("link", { name: /go back/i });
+    expect(goBack).toBeInTheDocument();
+    fireEvent.click(goBack);
+
+    expect(
+      screen.queryByRole("heading", { level: 1, name: /orders details/i })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: /go back/i })
+    ).not.toBeInTheDocument();
+
+    expect(screen.queryByText("no orders found")).not.toBeInTheDocument();
+  });
+
+  test("can render order component with order details", async () => {
+    const orderResponse = [
+      {
+        address: "4 Dalton st",
+        city: "boston",
+        createdAt: "2022-12-16T22:19:52.000Z",
+        email: "dalton@email.com",
+        first: "Joe",
+        id: "c8f9e8ec-1493-4e61-8d13-9b0f281fd9a5",
+        items:
+          '{"0":{"id":22,"name":"HALTERNECK BODYSUIT","img":"asia","qty":1,"size":"medium","price":30}}',
+        last: "Dalton",
+        state: "Ma",
+        totalOrder: 30,
+        updatedAt: "2022-12-16T22:19:52.000Z",
+        userId: "73d02a38-079b-44a0-bb58-098d55ecbde8",
+        zip: 12345,
+      },
+    ];
+    nock(`${process.env.REACT_APP_URL}`)
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "access-control-allow-credentials": "true",
+      })
+      .get("/api/users/profile")
+      .reply(200, { user: userInfo });
+
+    nock(`${process.env.REACT_APP_URL}`)
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "access-control-allow-credentials": "true",
+      })
+      .get(`/api/cart/orders/${userInfo.firstname}`)
+      .reply(200, { orders: orderResponse });
+
+    renderWithProviders(
+      <BrowserRouter>
+        <Profile />
+      </BrowserRouter>,
+      { preloadedState: { user: initialLoggedInState } }
+    );
+
+    expect(screen.getByText(/account information/i)).toBeInTheDocument();
+    const greetingsUser = `Welcome ${userInfo.firstname},`;
+    expect(await screen.findByText(greetingsUser)).toBeInTheDocument();
+
+    const orderButton = screen.getByRole("link", { name: /orders/i });
+    fireEvent.click(orderButton);
+
+    expect(
+      await screen.findByRole(
+        "heading",
+        { level: 1 },
+        { name: /orders details/i }
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByText(`${orderResponse.length}`)).toBeInTheDocument();
+    const address = `${orderResponse[0].address} ${orderResponse[0].city} ${orderResponse[0].state} ${orderResponse[0].zip}`;
+    expect(screen.getByText(/to be delivered at/i)).toBeInTheDocument();
+    expect(screen.getByText(address)).toBeInTheDocument();
+    expect(
+      screen.getByText(`$${orderResponse[0].totalOrder}`)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: /halterneck/i })
+    ).toBeInTheDocument();
   });
 });
