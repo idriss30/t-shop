@@ -11,7 +11,7 @@ import Loader from "../loader/loader";
 import Popup from "../popup/popup";
 import axios from "axios";
 import { totalPrice } from "../reusable";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { reducedLoaderStyle, reducedPopupStyle } from "../reusableStyle";
 
 const formStyle = {
@@ -97,8 +97,7 @@ const CheckoutForm = () => {
   const [popup, setPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [redirect, setRedirect] = useState(false);
-
+  const navigate = useNavigate();
   const products = myUseSelector((state) => state.cart.products);
 
   const removePopup = () => setPopup(false);
@@ -142,7 +141,7 @@ const CheckoutForm = () => {
     if (popup) {
       setTimeout(() => {
         setPopup(false);
-      }, 2000);
+      }, 1500);
     }
   }, [popup]);
 
@@ -173,10 +172,10 @@ const CheckoutForm = () => {
     return postResponse;
   };
 
-  const redirectToHome = () => {
+  const redirectToSuccess = () => {
     return setTimeout(() => {
-      setRedirect(true);
-    }, 2000);
+      navigate("/success");
+    }, 1500);
   };
 
   const handleFormSubmit = async (event) => {
@@ -185,7 +184,7 @@ const CheckoutForm = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/success",
+        return_url: `http://localhost:3000/success`,
       },
       redirect: "if_required",
     });
@@ -198,7 +197,7 @@ const CheckoutForm = () => {
         await postOrderToDatabase();
         setPopupMessage("your order has been placed");
         setPopup(true);
-        redirectToHome();
+        redirectToSuccess();
       } catch (error) {
         setPopupMessage(error.message);
         setPopup(true);
@@ -212,7 +211,6 @@ const CheckoutForm = () => {
 
   return (
     <>
-      {redirect && <Navigate to="/success" />}
       {isLoading && <Loader style={reducedLoaderStyle} />}
       {popup && (
         <Popup

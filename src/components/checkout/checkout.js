@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { myUseSelector } from "../../redux/reduxHooks";
 import { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
@@ -27,8 +27,8 @@ const Checkout = () => {
   const [clientSecret, setClientSecret] = useState();
   const products = myUseSelector((state) => state.cart.products);
   const [popup, setPopup] = useState(false);
-  const [redirect, setRedirect] = useState(false);
   const [popupMessage, setPopupMessage] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -50,7 +50,7 @@ const Checkout = () => {
 
   useEffect(() => {
     if (products.length === 0) {
-      setRedirect(true);
+      navigate("/");
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -65,7 +65,6 @@ const Checkout = () => {
 
   return (
     <>
-      {redirect && <Navigate to={"/"} />}
       {popup && <Popup message={popupMessage} remove={() => setPopup(false)} />}
       <section css={sectionStyle}>
         {!isLoggedIn && <InviteToLogin />}
