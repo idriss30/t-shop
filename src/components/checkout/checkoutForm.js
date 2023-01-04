@@ -219,7 +219,11 @@ const CheckoutForm = () => {
           style={reducedPopupStyle}
         />
       )}
-      <form css={formStyle} onSubmit={handleFormSubmit}>
+      <form
+        aria-label={"checkout-form"}
+        css={formStyle}
+        onSubmit={handleFormSubmit}
+      >
         <div css={formContainerStyle}>
           <div css={customFormStyle}>
             <input
