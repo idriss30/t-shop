@@ -1,4 +1,4 @@
-import { screen, fireEvent, waitFor } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { renderWithProviders } from "../../redux/testUtils";
 import { BrowserRouter } from "react-router-dom";
 import nock from "nock";
@@ -152,6 +152,31 @@ test("can render checkout form with user info", async () => {
   ).toBeInTheDocument();
 });
 
-test("can handle successful stripe checkout", () => {});
+test("can redirect when total Products is 0", async () => {
+  renderWithProviders(
+    <BrowserRouter>
+      <Checkout />
+    </BrowserRouter>,
+    {
+      preloadedState: {
+        cart: { totalProducts: 0, products: [] },
+        user: noUserState,
+      },
+    }
+  );
 
-test("can handle unsuccessful stripe checkout", () => {});
+  expect(
+    screen.getByRole("heading", {
+      level: 1,
+      name: /do you have an account ?/i,
+    })
+  ).toBeInTheDocument();
+
+  // testing that element has been removed
+
+  expect(
+    screen.queryByRole("heading", {
+      name: " name: /do you have an account ?/i,",
+    })
+  ).not.toBeInTheDocument();
+});
