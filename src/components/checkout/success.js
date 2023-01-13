@@ -4,7 +4,7 @@ import { reset } from "../../redux/cartSlice";
 import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
 import { sectionStyle } from "../reusableStyle";
 
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const containerStyle = {
   height: "60vh",
@@ -18,17 +18,8 @@ const containerStyle = {
 const Success = () => {
   const [content, setContent] = useState("cleaning up please wait...");
   const products = myUseSelector((state) => state.cart.products);
-
-  const [redirect, setRedirect] = useState(false);
-
+  const redirect = useNavigate();
   const dispatch = myUseDispatch();
-
-  const redirectToHome = () => {
-    setContent("cleanup done you will be redirected");
-    return setTimeout(() => {
-      setRedirect(true);
-    }, 2500);
-  };
 
   useEffect(() => {
     dispatch(reset());
@@ -36,17 +27,17 @@ const Success = () => {
 
   useEffect(() => {
     if (products.length === 0) {
-      redirectToHome();
+      setContent("cleanup done you will be redirected");
+      setTimeout(() => {
+        redirect("/");
+      }, 2000);
     }
-  }, [products.length]);
+  }, [products.length, redirect]);
 
   return (
-    <>
-      {redirect && <Navigate to={"/"} />}
-      <section css={sectionStyle}>
-        <div css={containerStyle}>{content}</div>
-      </section>
-    </>
+    <section css={sectionStyle}>
+      <div css={containerStyle}>{content}</div>
+    </section>
   );
 };
 
