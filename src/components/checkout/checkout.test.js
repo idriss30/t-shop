@@ -121,10 +121,8 @@ test("can render checkout form with user info", async () => {
     })
     .post("/api/stripe/paymentIntent")
     .reply(201, {
-      clientSecret: nock(`${process.env.REACT_APP_URL}`).defaultReplyHeaders({
-        "access-control-allow-origin": "*",
-        "access-control-allow-credentials": "true",
-      }),
+      clientSecret:
+        "pi_1Dstq32eZvKYlo2CShnP61Sg_secret_FAuC6DTX3Tnpfm9E7E6fg0HAb",
     });
 
   //not checking stripe rendering
