@@ -28,6 +28,8 @@ const Checkout = () => {
   const [clientSecret, setClientSecret] = useState();
   const products = myUseSelector((state) => state.cart.products);
   const [popup, setPopup] = useState(false);
+  const [loading, setIsLoading] = useState(true);
+  const [tokenError, setTokenError] = useState(false);
   const [popupMessage, setPopupMessage] = useState();
   const navigate = useNavigate();
 
@@ -44,18 +46,20 @@ const Checkout = () => {
         setClientSecret(response.clientSecret);
       })
       .catch((error) => {
+        setIsLoading(false);
         setPopupMessage(error.message);
         setPopup(true);
+        setTokenError(true);
       });
   }, [products]);
 
   useEffect(() => {
-    if (products.length === 0) {
-      navigate("/");
+    if (products.length === 0 || tokenError) {
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [navigate, products.length, tokenError]);
   const appearance = {
     theme: "stripe",
   };
@@ -69,12 +73,11 @@ const Checkout = () => {
       {popup && <Popup message={popupMessage} remove={() => setPopup(false)} />}
       <section css={sectionStyle}>
         {!isLoggedIn && <InviteToLogin />}
-        {clientSecret ? (
+        {loading && <Loader style={reducedLoaderStyle}></Loader>}
+        {clientSecret && (
           <Elements stripe={stripePromise} options={options} key={clientSecret}>
             <CheckoutForm />
           </Elements>
-        ) : (
-          <Loader style={reducedLoaderStyle}></Loader>
         )}
       </section>
     </>
