@@ -3,13 +3,16 @@ import axios from "axios";
 
 const writeCookie = (username) =>
   (document.cookie = `user=${username}; max-age=3600; path=/`);
+
 const checkUserCookie = () => {
   const cookiesNameArray = document.cookie.split("=");
-  const isCookiePresent = cookiesNameArray.find(
-    (element) => element === "user"
-  );
-  if (isCookiePresent) return true;
-  return false;
+  let isPresent = false;
+  cookiesNameArray.forEach((element) => {
+    if (element.includes("user")) {
+      return (isPresent = true);
+    }
+  });
+  return isPresent;
 };
 
 const clearCookie = () => {
