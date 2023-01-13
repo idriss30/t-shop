@@ -219,11 +219,9 @@ const CheckoutForm = () => {
           style={reducedPopupStyle}
         />
       )}
-      <form
-        aria-label={"checkout-form"}
-        css={formStyle}
-        onSubmit={handleFormSubmit}
-      >
+      <h1>Hello, {first}</h1>
+      <p>Make sure any autofilled information is correct before submitting</p>
+      <form title={"checkout-form"} css={formStyle} onSubmit={handleFormSubmit}>
         <div css={formContainerStyle}>
           <div css={customFormStyle}>
             <input
