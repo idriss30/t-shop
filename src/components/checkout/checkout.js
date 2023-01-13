@@ -7,7 +7,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./checkoutForm";
 import axios from "axios";
 import Popup from "../popup/popup";
-import { sectionStyle } from "../reusableStyle";
+import Loader from "../loader/loader";
+import { reducedLoaderStyle, sectionStyle } from "../reusableStyle";
 const stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE}`);
 
 const InviteToLogin = () => {
@@ -68,10 +69,12 @@ const Checkout = () => {
       {popup && <Popup message={popupMessage} remove={() => setPopup(false)} />}
       <section css={sectionStyle}>
         {!isLoggedIn && <InviteToLogin />}
-        {clientSecret && (
+        {clientSecret ? (
           <Elements stripe={stripePromise} options={options} key={clientSecret}>
             <CheckoutForm />
           </Elements>
+        ) : (
+          <Loader style={reducedLoaderStyle}></Loader>
         )}
       </section>
     </>
