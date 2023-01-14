@@ -28,7 +28,7 @@ const Success = () => {
     if (products.length === 0) {
       setTimeout(() => {
         redirect("/");
-      }, 1000);
+      }, 1200);
     }
   }, [products.length, redirect]);
 
