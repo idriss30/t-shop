@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { reset } from "../../redux/cartSlice";
 import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
 import { sectionStyle } from "../reusableStyle";
@@ -16,7 +16,6 @@ const containerStyle = {
 };
 
 const Success = () => {
-  const [content, setContent] = useState("cleaning up please wait...");
   const products = myUseSelector((state) => state.cart.products);
   const redirect = useNavigate();
   const dispatch = myUseDispatch();
@@ -27,16 +26,15 @@ const Success = () => {
 
   useEffect(() => {
     if (products.length === 0) {
-      setContent("cleanup done you will be redirected");
       setTimeout(() => {
         redirect("/");
-      }, 2000);
+      }, 1000);
     }
   }, [products.length, redirect]);
 
   return (
     <section css={sectionStyle}>
-      <div css={containerStyle}>{content}</div>
+      <div css={containerStyle}>cleaning up you will be redirected</div>
     </section>
   );
 };
