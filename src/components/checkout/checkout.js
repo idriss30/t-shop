@@ -8,7 +8,7 @@ import CheckoutForm from "./checkoutForm";
 import axios from "axios";
 import Popup from "../popup/popup";
 import Loader from "../loader/loader";
-import { reducedLoaderStyle, sectionStyle } from "../reusableStyle";
+import { sectionStyle } from "../reusableStyle";
 const stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE}`);
 
 const InviteToLogin = () => {
@@ -25,15 +25,17 @@ const InviteToLogin = () => {
 
 const Checkout = () => {
   const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
-  const [clientSecret, setClientSecret] = useState();
+
   const products = myUseSelector((state) => state.cart.products);
   const [popup, setPopup] = useState(false);
   const [loading, setIsLoading] = useState(true);
+  const [clientSecret, setClientSecret] = useState("");
   const [tokenError, setTokenError] = useState(false);
   const [popupMessage, setPopupMessage] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchToken = async () => {
       const response = await axios.post(
         `${process.env.REACT_APP_URL}/api/stripe/paymentIntent`,
@@ -43,6 +45,7 @@ const Checkout = () => {
     };
     fetchToken()
       .then((response) => {
+        setIsLoading(false);
         setClientSecret(response.clientSecret);
       })
       .catch((error) => {
@@ -60,25 +63,16 @@ const Checkout = () => {
       }, 1000);
     }
   }, [navigate, products.length, tokenError]);
-  const appearance = {
-    theme: "stripe",
-  };
-  const options = {
-    clientSecret,
-    appearance,
-  };
 
   return (
     <>
+      {loading && <Loader />}
       {popup && <Popup message={popupMessage} remove={() => setPopup(false)} />}
       <section css={sectionStyle}>
         {!isLoggedIn && <InviteToLogin />}
-        {loading && <Loader style={reducedLoaderStyle}></Loader>}
-        {clientSecret && (
-          <Elements stripe={stripePromise} options={options} key={clientSecret}>
-            <CheckoutForm />
-          </Elements>
-        )}
+        <Elements stripe={stripePromise}>
+          <CheckoutForm clientSecret={clientSecret} />
+        </Elements>
       </section>
     </>
   );
