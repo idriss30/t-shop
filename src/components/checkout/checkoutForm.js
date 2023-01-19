@@ -1,21 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
 import { useState } from "react";
-import {
-  useStripe,
-  useElements,
-  PaymentElement,
-} from "@stripe/react-stripe-js";
 import { useEffect } from "react";
-import Loader from "../loader/loader";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
+import { totalPrice } from "../reusable";
 import Popup from "../popup/popup";
 import axios from "axios";
-import { totalPrice } from "../reusable";
-import { useNavigate } from "react-router-dom";
 import { reducedLoaderStyle, reducedPopupStyle } from "../reusableStyle";
+import Loader from "../loader/loader";
 
 const formStyle = {
   width: "100%",
+  minHeight: "80vh",
   "@media(max-width:920px)": {
     width: "100%",
   },
@@ -30,14 +27,13 @@ const formStyle = {
       outline: "none",
       borderBottom: "1px solid red",
     },
-    "@media(max-width:420px)": {
-      width: "90%",
+    "@media(max-width:920px)": {
+      width: "100%",
     },
   },
   button: {
     display: "block",
     margin: "3rem 0",
-
     width: "50%",
     padding: ".3rem",
     border: "none",
@@ -53,39 +49,45 @@ const formStyle = {
 
 const formContainerStyle = {
   display: "flex",
-  flexDirection: "row",
-  flexWrap: "wrap",
   justifyContent: "space-between",
-  width: "100%",
   height: "100%",
-  "@media(max-width:820px)": {
-    flexDirection: "column",
+
+  "@media(max-width:870px)": {
+    display: "block",
   },
 };
 
 const customFormStyle = {
-  flexBasis: "45%",
+  flexBasis: "50%",
   "@media(max-width:820px)": {
     marginBottom: "2rem",
   },
 };
+
 const stripeFormStyle = {
+  backgroundColor: "whitesmoke",
   flexBasis: "45%",
-  backgroundColor: "whiteSmoke",
-  padding: "1rem",
-  "@media(max-width:820px)": {
-    width: "75%",
-  },
-  "@media(max-width:420px)": {
-    width: "90%",
-  },
+  height: "80%",
+  padding: "0rem 1rem",
+  position: "sticky",
+  top: "2rem",
 };
 
-const CheckoutForm = () => {
-  const stripe = useStripe();
-  const elements = useElements();
+const stripeElementStyle = {
+  margin: "2rem 0",
+  borderBottom: "1px solid black",
+  padding: "1rem 0",
+};
+
+const title = {
+  fontSize: "1.1rem",
+  margin: "2rem 0",
+};
+
+const CheckoutForm = ({ clientSecret }) => {
   const userInfo = myUseSelector((state) => state.user.userInfo);
   const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
+  const products = myUseSelector((state) => state.cart.products);
   const dispatch = myUseDispatch();
   const [first, setFirst] = useState(userInfo.firstname || "");
   const [last, setLast] = useState(userInfo.lastname || "");
@@ -96,11 +98,11 @@ const CheckoutForm = () => {
   const [zip, setZip] = useState(userInfo.zip || "");
   const [popup, setPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const products = myUseSelector((state) => state.cart.products);
-
   const removePopup = () => setPopup(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const stripe = useStripe();
+  const elements = useElements();
 
   const getUserInfoIfLoggeIn = async () => {
     const sendRequest = await axios.get(
@@ -120,17 +122,85 @@ const CheckoutForm = () => {
     setZip(user.zip);
   };
 
+  const postOrderToDatabase = async () => {
+    let id = userInfo.id;
+    const total = totalPrice(products);
+    const items = JSON.stringify(products);
+
+    const order = {
+      first,
+      last,
+      email,
+      address,
+      city,
+      state,
+      zip,
+      id: id,
+      total,
+      items,
+    };
+    const postResponse = await axios.post(
+      `${process.env.REACT_APP_URL}/api/cart/orders`,
+      {
+        order,
+      }
+    );
+
+    return postResponse;
+  };
+
+  const redirectOnSuccess = () => {
+    setTimeout(() => {
+      navigate("/success");
+    }, 1200);
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    if (!stripe || !elements) {
+      return;
+    }
+
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+      },
+    });
+
+    const { error, paymentIntent } = result;
+    if (error) {
+      setLoading(false);
+      setPopupMessage(error.message);
+      setPopup(true);
+      return;
+    }
+    if (paymentIntent.status === "succeeded") {
+      try {
+        await postOrderToDatabase();
+        setLoading(false);
+        setPopupMessage("your order has been placed. Redirecting...");
+        setPopup(true);
+        redirectOnSuccess();
+      } catch (error) {
+        setLoading(false);
+        setPopupMessage(error.message);
+        setPopup(true);
+      }
+    }
+  };
+
   useEffect(() => {
     if (isLoggedIn && !userInfo.length >= 0) {
-      setIsLoading(true);
+      setLoading(true);
       getUserInfoIfLoggeIn()
         .then((response) => {
+          setLoading(false);
           let userDetails = { ...response.user };
-          setIsLoading(false);
           autoFillForm(userDetails);
         })
         .catch((error) => {
-          setIsLoading(false);
+          setLoading(false);
           setPopupMessage(error.message);
           setPopup(true);
         });
@@ -145,73 +215,9 @@ const CheckoutForm = () => {
     }
   }, [popup]);
 
-  const postOrderToDatabase = async () => {
-    let id = userInfo.id;
-    const total = totalPrice(products);
-    const items = JSON.stringify(products);
-
-    const order = {
-      first,
-      last,
-      email,
-      address,
-      city,
-      state,
-      zip,
-      id: id || null,
-      total,
-      items,
-    };
-    const postResponse = await axios.post(
-      `${process.env.REACT_APP_URL}/api/cart/orders`,
-      {
-        order,
-      }
-    );
-
-    return postResponse;
-  };
-
-  const redirectToSuccess = () => {
-    return setTimeout(() => {
-      navigate("/success");
-    }, 1500);
-  };
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    setIsLoading(true);
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `http://localhost:3000/success`,
-      },
-      redirect: "if_required",
-    });
-    setIsLoading(false);
-    if (error) {
-      setPopupMessage(error.message);
-      setPopup(true);
-    } else {
-      try {
-        await postOrderToDatabase();
-        setPopupMessage("your order has been placed");
-        setPopup(true);
-        redirectToSuccess();
-      } catch (error) {
-        setPopupMessage(error.message);
-        setPopup(true);
-      }
-    }
-  };
-
-  const paymentElementOptions = {
-    layout: "tabs",
-  };
-
   return (
     <>
-      {isLoading && <Loader style={reducedLoaderStyle} />}
+      {loading && <Loader style={reducedLoaderStyle} />}
       {popup && (
         <Popup
           message={popupMessage}
@@ -219,11 +225,19 @@ const CheckoutForm = () => {
           style={reducedPopupStyle}
         />
       )}
-      <h1>Hello, {first}</h1>
-      <p>Make sure any autofilled information is correct before submitting</p>
+      {isLoggedIn && (
+        <>
+          <h1 css={title}>Hello, {first}</h1>
+          <p>
+            Make sure any autofilled information is correct before submitting
+          </p>
+        </>
+      )}
+
       <form title={"checkout-form"} css={formStyle} onSubmit={handleFormSubmit}>
         <div css={formContainerStyle}>
           <div css={customFormStyle}>
+            <h2 css={title}>Personal Information</h2>
             <input
               type={"text"}
               required
@@ -277,11 +291,25 @@ const CheckoutForm = () => {
             />
           </div>
           <div css={stripeFormStyle}>
-            <PaymentElement options={paymentElementOptions} />
+            <h3 css={title}>Card information</h3>
+            <p>
+              use following demo card info for successfull payment: {<br />}
+              <span css={{ color: "red" }}>4242424242424242</span>
+              {<br />}
+              Followed by any Zip code or CVV
+            </p>
+            <p>
+              For unsuccessfull payment use: {<br />}
+              <span css={{ color: "red" }}>4000000000009995</span>
+              {<br />}
+              Followed by any Zip code or CVV
+            </p>
+            <div css={stripeElementStyle}>
+              <CardElement />
+            </div>
           </div>
         </div>
-
-        <button>Place order</button>
+        <button disabled={!stripe}>Place order</button>
       </form>
     </>
   );
