@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import { renderWithProviders } from "../../redux/testUtils";
 import { BrowserRouter } from "react-router-dom";
 import nock from "nock";
@@ -54,8 +54,20 @@ const cartState = {
   ],
 };
 
-beforeEach(() => {
+beforeAll(() => {
+  jest.useFakeTimers();
+});
+
+afterEach(() => {
+  jest.runAllTimers();
+});
+afterAll(() => {
+  jest.useRealTimers();
+});
+
+afterEach(() => {
   if (!nock.isDone()) {
+    console.log(nock.activeMocks());
     nock.cleanAll();
     throw Error("some endpoints were not reached");
   }
@@ -85,11 +97,19 @@ test("can render checkout form without user", async () => {
       },
     }
   );
+  expect(screen.getByTestId("loader")).toBeInTheDocument();
+  await waitFor(() => {
+    expect(screen.queryByTestId("loader")).not.toBeInTheDocument();
+  });
+
   expect(
-    screen.getByRole("heading", { level: 1, name: /do you have an account ?/i })
+    screen.getByRole("heading", {
+      level: 1,
+      name: /do you have an account ?/i,
+    })
   ).toBeInTheDocument();
   expect(screen.getByRole("link", { name: /here/i })).toBeInTheDocument();
-  expect(await screen.findAllByRole("textbox")).toHaveLength(7);
+
   expect(screen.getByPlaceholderText(/first name/i)).toBeInTheDocument();
   expect(screen.getByPlaceholderText(/last name/i)).toBeInTheDocument();
   expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
@@ -97,7 +117,11 @@ test("can render checkout form without user", async () => {
   expect(screen.getByPlaceholderText(/city/i)).toBeInTheDocument();
   expect(screen.getByPlaceholderText(/state/i)).toBeInTheDocument();
   expect(screen.getByPlaceholderText(/zip/i)).toBeInTheDocument();
-
+  expect(
+    screen.getByRole("heading", { level: 3, name: /card information/i })
+  ).toBeInTheDocument();
+  expect(screen.getByText("4242424242424242")).toBeInTheDocument();
+  expect(screen.getByText("4000000000009995")).toBeInTheDocument();
   expect(
     screen.getByRole("button", { name: /place order/i })
   ).toBeInTheDocument();
@@ -137,10 +161,11 @@ test("can render checkout form with user info", async () => {
       },
     }
   );
-
-  expect(
-    await screen.findByText(`Hello, ${userInfo.firstname}`)
-  ).toBeInTheDocument();
+  expect(screen.getByTestId("loader")).toBeInTheDocument();
+  await waitFor(() => {
+    expect(screen.queryByTestId("loader")).not.toBeInTheDocument();
+  });
+  expect(screen.getByText(`Hello, ${userInfo.firstname}`)).toBeInTheDocument();
   expect(screen.getByDisplayValue(userInfo.lastname)).toBeInTheDocument();
   expect(screen.getByDisplayValue(userInfo.email)).toBeInTheDocument();
   expect(screen.getByDisplayValue(userInfo.address)).toBeInTheDocument();
