@@ -35,7 +35,6 @@ const Checkout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsLoading(true);
     const fetchToken = async () => {
       const response = await axios.post(
         `${process.env.REACT_APP_URL}/api/stripe/paymentIntent`,
