@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { myUseDispatch, myUseSelector } from "../../redux/reduxHooks";
+import { myUseSelector } from "../../redux/reduxHooks";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
@@ -84,11 +84,10 @@ const title = {
   margin: "2rem 0",
 };
 
-const CheckoutForm = ({ clientSecret }) => {
+const CheckoutForm = () => {
   const userInfo = myUseSelector((state) => state.user.userInfo);
   const isLoggedIn = myUseSelector((state) => state.user.isLoggedIn);
   const products = myUseSelector((state) => state.cart.products);
-  const dispatch = myUseDispatch();
   const [first, setFirst] = useState(userInfo.firstname || "");
   const [last, setLast] = useState(userInfo.lastname || "");
   const [email, setEmail] = useState(userInfo.email || "");
@@ -98,8 +97,10 @@ const CheckoutForm = ({ clientSecret }) => {
   const [zip, setZip] = useState(userInfo.zip || "");
   const [popup, setPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
+  const [loading, setIsLoading] = useState(true);
+  const [tokenError, setTokenError] = useState(false);
+  const [clientSecret, setClientSecret] = useState("");
   const removePopup = () => setPopup(false);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
@@ -157,7 +158,7 @@ const CheckoutForm = ({ clientSecret }) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
     if (!stripe || !elements) {
       return;
     }
@@ -170,7 +171,7 @@ const CheckoutForm = ({ clientSecret }) => {
 
     const { error, paymentIntent } = result;
     if (error) {
-      setLoading(false);
+      setIsLoading(false);
       setPopupMessage(error.message);
       setPopup(true);
       return;
@@ -178,12 +179,12 @@ const CheckoutForm = ({ clientSecret }) => {
     if (paymentIntent.status === "succeeded") {
       try {
         await postOrderToDatabase();
-        setLoading(false);
+        setIsLoading(false);
         setPopupMessage("your order has been placed. Redirecting...");
         setPopup(true);
         redirectOnSuccess();
       } catch (error) {
-        setLoading(false);
+        setIsLoading(false);
         setPopupMessage(error.message);
         setPopup(true);
       }
@@ -191,21 +192,47 @@ const CheckoutForm = ({ clientSecret }) => {
   };
 
   useEffect(() => {
-    if (isLoggedIn && !userInfo.length >= 0) {
-      setLoading(true);
+    const fetchToken = async () => {
+      const response = await axios.post(
+        `${process.env.REACT_APP_URL}/api/stripe/paymentIntent`,
+        { products }
+      );
+      return response.data;
+    };
+    fetchToken()
+      .then((response) => {
+        setIsLoading(false);
+        setClientSecret(response.clientSecret);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setPopupMessage(error.message);
+        setPopup(true);
+        setTokenError(true);
+      });
+  }, [products]);
+
+  useEffect(() => {
+    if (products.length === 0 || tokenError) {
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
+  }, [navigate, products.length, tokenError]);
+
+  useEffect(() => {
+    if (isLoggedIn && Object.keys(userInfo).length === 0) {
       getUserInfoIfLoggeIn()
         .then((response) => {
-          setLoading(false);
           let userDetails = { ...response.user };
           autoFillForm(userDetails);
         })
         .catch((error) => {
-          setLoading(false);
           setPopupMessage(error.message);
           setPopup(true);
         });
     }
-  }, [isLoggedIn, userInfo.length, dispatch]);
+  }, [isLoggedIn, userInfo]);
 
   useEffect(() => {
     if (popup) {
