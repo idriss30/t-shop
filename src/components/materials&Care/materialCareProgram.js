@@ -10,7 +10,7 @@ const containerStyle = {
   gridTemplateColumns: "1fr 1fr",
   boxSizing: "border-box",
   alignItems: "center",
-  "@media(max-width: 620px)": {
+  "@media(max-width: 820px)": {
     display: "block",
   },
 };
@@ -18,16 +18,16 @@ const containerStyle = {
 const imageStyle = {
   display: "block",
   float: "right",
-  width: "75%",
-  height: "90%",
-  "@media(max-width: 620px)": {
+  width: "26vw",
+  height: "58vh",
+  "@media(max-width: 820px)": {
     float: "none",
-    width: "55%",
+    width: "42vw",
     height: "50vh",
     margin: "1rem auto",
   },
-  "@media(max-width: 420px)": {
-    width: "75%",
+  "@media(max-width: 620px)": {
+    width: "56vw",
     height: "45vh",
     margin: "1rem auto",
   },

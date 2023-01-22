@@ -15,13 +15,19 @@ const containerStyle = {
     gridTemplateColumns: "1fr 1fr",
     rowGap: "0",
   },
-  "@media(max-width: 460px)": {
+
+  "@media(max-width: 620px)": {
     display: "block",
   },
 };
 const imagesStyle = {
   width: "100%",
   height: "100%",
+  "@media(max-width: 620px)": {
+    display: "block",
+    width: "75vw",
+    height: "50vh",
+  },
 };
 
 const gridStyle = {
@@ -54,12 +60,9 @@ const header2Style = {
 
 const linkStyle = {
   display: "inline-block",
-  height: "65%",
-  "@media(max-width: 960px)": {
-    height: "55%",
-  },
-  "@media(max-width: 460px)": {
-    height: "60vh",
+  height: "55%",
+  "@media(max-width: 620px)": {
+    height: "50vh",
   },
 };
 

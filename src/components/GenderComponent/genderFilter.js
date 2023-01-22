@@ -20,7 +20,7 @@ const displayStyle = {
   "@media(max-width:820px)": {
     width: "70%",
   },
-  "@media(max-width:520px)": {
+  "@media(max-width:620px)": {
     width: "100%",
   },
 
@@ -30,16 +30,24 @@ const displayStyle = {
   },
 };
 const imageDisplayStyle = {
-  display: "block",
-  width: "100%",
+  width: "35vw",
   height: "63vh",
+  display: "block",
+  margin: "0 auto",
+  "@media(max-width:820px)": {
+    width: "50vw",
+  },
+  "@media(max-width:620px)": {
+    width: "75vw",
+    height: "55vh",
+  },
 };
 
 const sectionGrid = {
   width: "100%",
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
-  "@media(max-width:460px)": {
+  "@media(max-width:620px)": {
     display: "block",
   },
 };
@@ -55,14 +63,11 @@ const singleGridStyle = {
   },
 
   "@media(max-width:820px)": {
-    width: "36vw",
+    width: "100%",
 
     p: {
       width: "90%",
     },
-  },
-  "@media(max-width:460px)": {
-    width: "100%",
   },
 };
 
@@ -78,9 +83,10 @@ const imageGridStyle = {
     width: "33vw",
     height: "30vh",
   },
-  "@media(max-width:460px)": {
-    width: "100%",
-    height: "auto",
+  "@media(max-width:620px)": {
+    display: "block",
+    width: "75vw",
+    height: "50vh",
   },
 };
 const header2Style = {

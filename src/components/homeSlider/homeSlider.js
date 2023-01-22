@@ -16,6 +16,7 @@ const sliderSectionStyle = {
   margin: "6rem auto",
   "@media(max-width:620px)": {
     width: "75%",
+    height: "55vh",
   },
 };
 
@@ -30,15 +31,16 @@ const swiperStyle = {
   height: "100%",
 };
 const imageStyle = {
-  width: "50%",
-  height: "100%",
+  width: "35vw",
+  height: "65vh",
   display: "block",
   margin: "0 auto",
   "@media(max-width:820px)": {
-    width: "70%",
+    width: "50vw",
   },
-  "@media(max-width:520px)": {
-    width: "100%",
+  "@media(max-width:620px)": {
+    width: "75vw",
+    height: "50vh",
   },
 };
 
