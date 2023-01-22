@@ -6,7 +6,7 @@
   style="display: inline-block; margin: 1rem auto; max-width: 600px; max-height:800px"/>
 
 This project is a minimal viable product built with React.
-You can see it live [here](https://idrisscissoko.com/tshop/)
+You can see it live [here](https://idrisscissoko.com/tshop/) </br>
 You can see the backend code [here](https://github.com/idriss30/tshop-backend)
 
 # Prerequisites :
@@ -32,6 +32,7 @@ To clone and run this application, you'll need [Git](https://git-scm.com) and [N
 - State Management
 - Asynchronous javascript
 - fully functionnal Cart
+- NewsLetter
 - localStorage
 - Session storage
 - Payment integration
@@ -71,7 +72,7 @@ $ npm run test
 # Test Coverage
 
 <img
-  src="./Screenshot-coverage.png"
+  src="./coverage.png"
   alt="coverage img"
   style="display: inline-block; margin: 0 auto; max-width: 600px; max-height:800px"/>
 
