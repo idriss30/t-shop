@@ -57,7 +57,7 @@ $ npm install
 # create environment variables
 $ create a .env file
 
-# you will need two environment variables
+# you will need 2 environment variables
 REACT_APP_URL # url link to the running backend server, backend link is provided at the top of readme file
 REACT_APP_STRIPE # stripe private key starting with pk
 
