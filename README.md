@@ -79,9 +79,7 @@ $ npm run test
 # Author
 
 Created by me Idris.</br>
-You can find me on  <a href="https://www.linkedin.com/in/idrissciss/"  target="_blank"
-              rel="noopener noreferrer">LinkedIn</a>
-
+You can find me on [LinkedIn](https://www.linkedin.com/in/idrissciss/)
 # Support
 
 If you learn anything from this project and/or would like to support:</br>
