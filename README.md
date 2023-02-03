@@ -67,6 +67,9 @@ $ npm run start
 # Run the test
 $ npm run test
 
+# Create build
+$ npm run build
+
 ```
 
 # Test Coverage
